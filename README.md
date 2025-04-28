@@ -10,8 +10,7 @@ All modules included here are designed to be easily installed and integrated int
 
 ## 📦 Included Modules
 
-Currently, no custom modules are available.  
-New modules will be added progressively as the development advances.
+- smart_ui_tools
 
 ## 🛠️ Technologies Used
 

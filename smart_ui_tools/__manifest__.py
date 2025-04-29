@@ -7,7 +7,7 @@
         subtitle on modules listing or apps.openerp.com""",
 
     'description': """
-        Long description of module's purpose
+        Outils UI intelligents
     """,
 
     'author': "Sarobidy Andriatseheno",
@@ -19,13 +19,16 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base','hr'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+        'views/menu_main.xml',
+        'views/hr_job/view_tree_hr_job.xml',
+        'views/hr_job/action_menu.xml',
+        'security/ir.model.access.csv',
+        # 'views/views.xml',
+        # 'views/templates.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

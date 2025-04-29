@@ -1,0 +1,16 @@
+<odoo>
+    
+    <!-- Start Action to access the job directory -->
+    <record model="ir.actions.act_window" id="action_smart_ui_tools_hr_job">
+        <field name="name">Répertoire des Postes</field>
+        <field name="res_model">hr.job</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="smart_ui_tools.smart_ui_tools_hr_job_tree_id"/>
+    </record>
+    <!-- End Action to access the job directory -->
+    
+    <!-- Start Menu to access the job directory -->
+    <menuitem id="menu_smart_ui_tools_job_directory" parent="menu_smart_ui_tools_root" name="Répertoire des Postes" sequence="1"
+              action="action_smart_ui_tools_hr_job"/>
+    <!-- End Menu to access the job directory -->
+</odoo>

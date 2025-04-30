@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <menuitem id="menu_smart_ui_tools_root" name="Outils IU intelligents" sequence="10"/>
-</odoo>

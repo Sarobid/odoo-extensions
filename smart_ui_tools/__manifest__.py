@@ -23,6 +23,7 @@
 
     # always loaded
     'data': [
+        'views/menu_main.xml'
         # 'views/views.xml',
         # 'views/templates.xml',
     ],
@@ -30,4 +31,5 @@
     'demo': [
         'demo/demo.xml',
     ],
+    'application':True
 }

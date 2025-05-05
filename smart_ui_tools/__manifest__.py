@@ -23,7 +23,10 @@
 
     # always loaded
     'data': [
-        'views/menu_main.xml'
+        'views/rma/view_list_vehicule_employee.xml',
+        'views/rma/action.xml',
+        'views/menu_main.xml',
+        'security/ir.model.access.csv'
         # 'views/views.xml',
         # 'views/templates.xml',
     ],

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.actions.act_window" id="action_list_vehicle_employee_id">
+        <field name="name">Mes véhicules</field>
+        <field name="res_model">v.smart.vehicle.employee</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="smart_ui_tools.view_list_vehicle_employee_id"/>
+    </record>
+</odoo>

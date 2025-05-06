@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_smart_ui_tools_vehicle_employee_id,access_smart_my_rma_vehicule_employee,model_v_smart_vehicle_employee,base.group_user,1,0,0,0
+access_smart_ui_tools_vehicle_employee_id,access_smart_my_rma_vehicule_employee,model_v_smart_vehicle_employee,smart_ui_tools.group_rma_vehicle_mecano,1,0,0,0

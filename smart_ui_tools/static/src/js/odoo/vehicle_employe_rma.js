@@ -26,18 +26,29 @@ odoo.define('smart_ui_tools.vehicle.rma', function (require) {
             });
             this.$el.html(templateHtml);
             self._render_button_details();
+            self._render_button_close_details();
             return this._super.apply(this, arguments);
         },
         _render_button_details : function () {
             const self = this;
             this.$el.find('.vehicle-card').on('click', function (e) {
                 const recordId = $(this).data('id');
-                console.log("RMA , ID =", recordId);
-                alert(recordId)
+                console.log("RMA employee, ID =", recordId);
+                let rma = getDetailsRma(self.dataVehicle,recordId)
+                console.log("rma",rma)
+                insertDetailsVehicleInHtml(core.qweb,rma[0])
+                w3_open()
             });
+        },
+        _render_button_close_details : function () { 
+            const self = this;
+            this.$el.find('#close-details-vehicle').on('click', function (e) {
+                w3_close()
+            }); 
         }
 
     });
+    
     core.action_registry.add('smart_ui_tools.vehicle.rma', HomePage);
     return HomePage;
 });

@@ -1,50 +1,69 @@
 <templates>
     <t t-name="PageListeVehicleRma">
         <div class="container-fluid">
-            
-            <h2 class="my-3">Mes Véhicules</h2>
-            
-            <!-- Zone avec scroll vertical -->
-            <div class="row oe_background_grey" style="max-height: 88vh; overflow-y: auto; overflow-x: hidden;">
-                <t t-foreach="dataVehicle" t-as="item">
-                    <div class="col-sm-3 mb-3">
-                        <div class="card shadow-sm d-flex flex-row vehicle-card"  t-att-data-id="item.rma_id">
-                            
-                            <!-- Image
-                            <div class="o_kanban_image p-2" style="width: 100px;">
-                                <img t-att-src="'/web/image?model=fleet.vehicle&amp;field=image_128&amp;id=' + item.vehicle_id[0]"
-                                     alt="Véhicule"
-                                     class="o_image_64_contain img-thumbnail"/>
-                            </div>
-                             -->
-                            <!-- Détails -->
-                            <div class="oe_kanban_details p-2 flex-grow-1">
-                                <strong class="o_kanban_record_title d-block mb-2">
-                                    <t t-esc="item.name2"/>
-                                </strong>
+            <div id="main-vehicle">
+                <h2 class="my-3">Mes Véhicules</h2>
+                <!-- Zone avec scroll vertical -->
+                <div class="row oe_background_grey" style="max-height: 88vh; overflow-y: auto; overflow-x:">
+                    <t t-foreach="dataVehicle" t-as="item">
+                        <div class="vehicle-item col-sm-6 col-lg-4 col-md-6 mb-3">
+                            <div class="card shadow-sm d-flex flex-row vehicle-card"  t-att-data-id="item.id">
                                 
-                                <ul class="list-unstyled mb-0">
-                                    <li><strong>Plaque :</strong> <t t-esc="item.license_plate"/></li>
-                                    <li><strong>Marque :</strong>
-                                        <t t-if="item.brand_id">
-                                            <t t-esc="item.brand_id[1]"/>
-                                        </t>
-                                        <t t-else="">Non défini</t>
-                                    </li>
-                                    <li><strong>Modèle :</strong>
-                                        <t t-if="item.model_id">
-                                            <t t-esc="item.model_id[1]"/>
-                                        </t>
-                                        <t t-else="">Non défini</t>
-                                    </li>
-                                    <li><strong>VIN :</strong> <t t-esc="item.vin_sn"/></li>
-                                </ul>
+                                <!-- Image
+                                <div class="o_kanban_image p-2" style="width: 100px;">
+                                    <img t-att-src="'/web/image?model=fleet.vehicle&amp;field=image_128&amp;id=' + item.vehicle_id[0]"
+                                        alt="Véhicule"
+                                        class="o_image_64_contain img-thumbnail"/>
+                                </div>
+                                -->
+                                <!-- Détails -->
+                                <div class="oe_kanban_details p-2 flex-grow-1">
+                                    <strong class="o_kanban_record_title d-block mb-2">
+                                        <t t-esc="item.name2"/>
+                                    </strong>
+                                    
+                                    <ul class="list-unstyled mb-0">
+                                        <li><strong>Plaque :</strong> <t t-esc="item.license_plate"/></li>
+                                        <li><strong>Marque :</strong>
+                                            <t t-if="item.brand_id">
+                                                <t t-esc="item.brand_id[1]"/>
+                                            </t>
+                                            <t t-else="">Non défini</t>
+                                        </li>
+                                        <li><strong>Modèle :</strong>
+                                            <t t-if="item.model_id">
+                                                <t t-esc="item.model_id[1]"/>
+                                            </t>
+                                            <t t-else="">Non défini</t>
+                                        </li>
+                                        <li><strong>Type :</strong>
+                                            <t t-if="item.vehicle_type">
+                                                <t t-esc="item.vehicle_type[1]"/>
+                                            </t>
+                                            <t t-else="">Non défini</t>
+                                        </li>
+                                        <li><strong>VIN :</strong> <t t-esc="item.vin_sn"/></li>
+                                        
+                                    </ul>
+                                </div>
+                                
                             </div>
-                            
                         </div>
-                    </div>
-                </t>
+                    </t>
+                </div>
             </div>
+            <div class="w3-sidebar" style="display:none; border:2px solid gray; right:0; top:0;" id="details-vehicle">
+                <div class="card">
+                    <div class="card-header align-items-right">
+                        <button type="button" class="btn-close btn-success" aria-label="Close" style="right:0" id="close-details-vehicle">Fermer</button>
+                    </div>
+                    <div class="card-body">
+                        <div id="details-vehicle-head"></div>
+                        Liste des tâches
+                    </div>
+                </div>
+            </div>
+
         </div>
     </t>
 </templates>

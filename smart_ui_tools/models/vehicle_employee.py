@@ -15,6 +15,7 @@ class vehicle_employee(models.Model):
     model_id = fields.Many2one("fleet.vehicle.model",string="Modeles")
     user_id = fields.Many2one("res.users",string="Utilisateurs")
     rma_id = fields.Integer(String="ID RMA")
+    vehicle_type = fields.Many2one("fleet.vehicle.model",string="Type")
     @api.model
     def _query(self):
         return """
@@ -31,7 +32,8 @@ class vehicle_employee(models.Model):
 			h.name as name_marque,
 			b.model_id,
 			i.name as name_model_type,
-            g.user_id
+            g.user_id,
+			i.vehicle_type
         from fleet_vehicle_log_services a
 		join fleet_vehicle_cost f on f.id=a.cost_id
 		join fleet_vehicle b on f.vehicle_id=b.id
@@ -40,6 +42,7 @@ class vehicle_employee(models.Model):
         JOIN hr_employee g on g.id= d.hr_employee_id
 		left join fleet_vehicle_model_brand h on h.id=b.brand_id
 		left join fleet_vehicle_model i on i.id = b.model_id
+		left join fleet_type_vehicle j on j.id=i.vehicle_type
         where g.active is true
             """
 

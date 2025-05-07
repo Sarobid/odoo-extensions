@@ -1,9 +1,9 @@
 <templates>
 <t t-name="PageDetailsVehicleRma">
-    <div class="oe_kanban_details p-2 flex-grow-1">
-        <strong class="o_kanban_record_title d-block mb-2">
+    <div class="p-2 mb-3 bg-body-tertiary rounded-3">
+        <h1 class="display-6 text-bold">
             <t t-esc="vehicle.name2"/>
-        </strong>
+        </h1>
         <ul class="list-unstyled mb-0">
             <li><strong>Plaque :</strong> <t t-esc="vehicle.license_plate"/></li>
             <li><strong>Marque :</strong>

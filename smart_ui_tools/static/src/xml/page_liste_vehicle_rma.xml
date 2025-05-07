@@ -42,8 +42,7 @@
                                             </t>
                                             <t t-else="">Non défini</t>
                                         </li>
-                                        <li><strong>VIN :</strong> <t t-esc="item.vin_sn"/></li>
-                                        
+                                        <li><strong>VIN :</strong> <t t-esc="item.vin_sn"/></li>        
                                     </ul>
                                 </div>
                                 
@@ -53,13 +52,24 @@
                 </div>
             </div>
             <div class="w3-sidebar" style="display:none; border:2px solid gray; right:0; top:0;" id="details-vehicle">
-                <div class="card">
-                    <div class="card-header align-items-right">
-                        <button type="button" class="btn-close btn-success" aria-label="Close" style="right:0" id="close-details-vehicle">Fermer</button>
-                    </div>
-                    <div class="card-body">
-                        <div id="details-vehicle-head"></div>
-                        Liste des tâches
+                <div class="container-fluid">
+                    <div class="header border-bottom" style="position: sticky; top: 0; z-index: 1000; background-color: white;">
+                        <div class="d-flex justify-content-between align-items-center border-bottom" style="height:50px">
+                            <h5 class="mb-0" style="font-weight:bold">Détails du véhicule</h5>
+                            <button type="button" class="btn-close btn-success" aria-label="Fermer" id="close-details-vehicle">Fermer</button>
+                        </div>
+                        <div id="details-vehicle-head" class="border-bottom"></div>
+                            <div class="container-fluid">
+                                <div class="d-flex justify-content-between align-items-center border-bottom" style="height:50px">
+                                    <h4 class="mb-0" style="font-weight:bold">Tache à faire</h4>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="container-fluid">
+                        <!-- <div class="d-flex justify-content-between align-items-center border-bottom" style="height:50px">
+                            <h4 class="mb-0" style="font-weight:bold">Tache à faire</h4>
+                        </div> -->
+                        <div id="details-vehicle-tache" style="margin-top:10px"></div>
                     </div>
                 </div>
             </div>

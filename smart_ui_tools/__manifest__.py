@@ -37,7 +37,8 @@
     ],
     'qweb':[
         'static/src/xml/page_liste_vehicle_rma.xml',
-        'static/src/xml/page_details_vehicle_rma.xml'
+        'static/src/xml/page_details_vehicle_rma.xml',
+        'static/src/xml/page_list_tache_vehicle_rma.xml'
     ],
     'application':True
 }

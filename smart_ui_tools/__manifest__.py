@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','web'],
+    'depends': ['base','web','fleet'],
 
     # always loaded
     'data': [
@@ -36,7 +36,8 @@
         'demo/demo.xml',
     ],
     'qweb':[
-        'static/src/xml/page_liste_vehicle_rma.xml'
+        'static/src/xml/page_liste_vehicle_rma.xml',
+        'static/src/xml/page_details_vehicle_rma.xml'
     ],
     'application':True
 }

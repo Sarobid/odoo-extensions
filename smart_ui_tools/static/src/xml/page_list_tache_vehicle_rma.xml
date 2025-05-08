@@ -1,9 +1,11 @@
 <templates>
     <t t-name="PageListTacheVehicleRma">
         <div class="row oe_background_grey" style="">
+            <t t-set="counter" t-value="0"/>
             <t t-foreach="taskVehicleRma" t-as="item">
+                <t t-set="counter" t-value="counter + 1"/>
                 <div class="col-12 mb-3">
-                    <div class="card shadow-sm d-flex flex-row">
+                    <div class="card shadow-sm d-flex flex-row" style="background-color:white;">
                         <!-- Image
                         <div class="o_kanban_image p-2" style="width: 100px;">
                             <img t-att-src="'/web/image?model=fleet.vehicle&amp;field=image_128&amp;id=' + item.vehicle_id[0]"
@@ -12,6 +14,9 @@
                         </div>
                         -->
                         <!-- Détails -->
+                        <div class="p-2">
+                            <strong><t t-esc="counter"/></strong>
+                        </div>
                         <div class="oe_kanban_details p-2 flex-grow-1">
                             <strong class="o_kanban_record_title d-block mb-2">
                                 <t t-if="item.operation_done">

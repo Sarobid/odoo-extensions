@@ -17,6 +17,7 @@ function getAllVehicleRmaMecano(odooClient,uid,traiteData){
 }
 
 function getAllTaskVehicleRma(odooClient,rma_id,traiteData){
+    // console.log("rma_id",rma_id)
     return odooClient._rpc({
         model: 'v.service.product.list',
         method: 'search_read',

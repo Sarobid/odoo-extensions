@@ -56,12 +56,23 @@
                     <div class="header border-bottom" style="position: sticky; top: 0; z-index: 1000; background-color: white;">
                         <div class="d-flex justify-content-between align-items-center border-bottom" style="height:50px">
                             <h5 class="mb-0" style="font-weight:bold">Détails du véhicule</h5>
-                            <button type="button" class="btn-close btn-success" aria-label="Fermer" id="close-details-vehicle">Fermer</button>
+                            <button type="button" class="btn-close btn-success smart_button" aria-label="Fermer" id="close-details-vehicle">Fermer</button>
                         </div>
                         <div id="details-vehicle-head" class="border-bottom"></div>
                             <div class="container-fluid">
-                                <div class="d-flex justify-content-between align-items-center border-bottom" style="height:50px">
-                                    <h4 class="mb-0" style="font-weight:bold">Tache à faire</h4>
+                                <div class="d-flex justify-content-between align-items-center " style="height:50px">
+                                    <h4 class="mb-0" style="font-weight:bold">Tache à faire
+                                    </h4>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-left" style="margin-bottom:5px">
+                                    <span class="text-muted">
+                                        Assigné : 
+                                        <span class="num-task-assigne" id="taskAssigneid"></span>
+                                    </span>
+                                    <span class="text-muted">
+                                        Non assigné: 
+                                        <span class="num-task-non-assigne" id="taskNonAssigneid"></span>
+                                    </span>
                                 </div>
                             </div>
                         </div>

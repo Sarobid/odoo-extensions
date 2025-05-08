@@ -38,6 +38,10 @@ odoo.define('smart_ui_tools.vehicle.rma', function (require) {
                 console.log("rma",rma)
                 insertDetailsVehicleInHtml(core.qweb,rma[0])
                 w3_open()
+                getAllTaskVehicleRma(self,rma[0].rma_id,function (data) {
+                    console.log(data)
+                    insertTacheVehicleInHtml(core.qweb,data)
+                })
             });
         },
         _render_button_close_details : function () { 

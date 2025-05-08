@@ -1,9 +1,11 @@
 <templates>
     <t t-name="PageListTacheVehicleRma">
         <div class="row oe_background_grey" style="">
+            <t t-set="counter" t-value="0"/>
             <t t-foreach="taskVehicleRma" t-as="item">
+                <t t-set="counter" t-value="counter + 1"/>
                 <div class="col-12 mb-3">
-                    <div class="card shadow-sm d-flex flex-row">
+                    <div t-attf-class="card shadow-sm d-flex flex-row {{ (item.assigne === true) ? 'assigne' : 'non-assigne' }}">
                         <!-- Image
                         <div class="o_kanban_image p-2" style="width: 100px;">
                             <img t-att-src="'/web/image?model=fleet.vehicle&amp;field=image_128&amp;id=' + item.vehicle_id[0]"
@@ -12,6 +14,9 @@
                         </div>
                         -->
                         <!-- Détails -->
+                        <div class="p-2">
+                            <strong><t t-esc="counter"/></strong>
+                        </div>
                         <div class="oe_kanban_details p-2 flex-grow-1">
                             <strong class="o_kanban_record_title d-block mb-2">
                                 <t t-if="item.operation_done">
@@ -21,7 +26,12 @@
                             </strong>
                             
                             <ul class="list-unstyled mb-0">
-                                <li><strong>Libre :</strong> <t t-esc="item.namelibre"/></li>
+                                <li><strong>Libre :</strong>
+                                    <t t-if="item.namelibre">
+                                        <t t-esc="item.namelibre"/>
+                                    </t>
+                                    <t t-else=""></t>
+                                </li>
                                 <li><strong>Type de travaux :</strong>
                                     <t t-if="item.service_work_id">
                                         <t t-esc="item.service_work_id[1]"/>
@@ -32,13 +42,28 @@
                                     <t t-if="item.product_id">
                                         <t t-esc="item.product_id[1]"/>
                                     </t>
-                                    <t t-else="">Non défini</t>
+                                    <t t-else="">Aucun</t>
                                 </li>
-                                <li><strong>Quantite :</strong> <t t-esc="item.product_qty"/></li>         
-                                
+                               <li>
+                                   <t t-if="item.assigne">
+                                        <t t-if="!item.date_start_service">
+                                            <!-- Affiche bouton Commencer si la tâche n’a pas encore commencé -->
+                                            <button class="btn start-button-task" t-att-data-id="item.service_product_list_id">Commencer</button>
+                                        </t>
+                                        <t t-elif="!item.date_end_service">
+                                            <!-- Affiche bouton Terminer si elle a commencé mais pas encore fini -->
+                                            <button class="btn end-button-task" t-att-data-id="item.service_product_list_id">Terminer</button>
+                                        </t>
+                                        <t t-else="">
+                                            <!-- Affiche "Fait" si la tâche est terminée -->
+                                            <span class="badge bg-success">Fait</span>
+                                        </t>
+                                    </t>
+
+                                </li>
+                                <!-- <li><strong>Quantite :</strong> <t t-esc="item.product_qty"/></li>          -->
                             </ul>
-                        </div>
-                        
+                        </div>                        
                     </div>
                 </div>
             </t>

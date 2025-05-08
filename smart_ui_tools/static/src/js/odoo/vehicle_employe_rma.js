@@ -10,6 +10,7 @@ odoo.define('smart_ui_tools.vehicle.rma', function (require) {
             //INitialisation des variable///
             this._super.apply(this, arguments);
             this.dataVehicle = []
+            this.rmaSeleted = null;
         },
         willStart : function(){
             const self = this;
@@ -27,6 +28,8 @@ odoo.define('smart_ui_tools.vehicle.rma', function (require) {
             this.$el.html(templateHtml);
             self._render_button_details();
             self._render_button_close_details();
+            self._render_start_button_task();
+            self._render_end_button_task();
             return this._super.apply(this, arguments);
         },
         _render_button_details : function () {
@@ -36,12 +39,13 @@ odoo.define('smart_ui_tools.vehicle.rma', function (require) {
                 console.log("RMA employee, ID =", recordId);
                 let rma = getDetailsRma(self.dataVehicle,recordId)
                 console.log("rma",rma)
-                insertDetailsVehicleInHtml(core.qweb,rma[0])
+                if (rma.length > 0) {
+                    self.rmaSeleted = rma[0]   
+                }
+                self._showDetailsVehicleRma();
                 w3_open()
-                getAllTaskVehicleRma(self,rma[0].rma_id,function (data) {
-                    console.log(data)
-                    insertTacheVehicleInHtml(core.qweb,data)
-                })
+                self._showTaskVehicleRma();
+                
             });
         },
         _render_button_close_details : function () { 
@@ -49,6 +53,48 @@ odoo.define('smart_ui_tools.vehicle.rma', function (require) {
             this.$el.find('#close-details-vehicle').on('click', function (e) {
                 w3_close()
             }); 
+        },
+        _render_start_button_task : function (){
+            const self = this;
+            this.$el.off('click', '.start-button-task'); // Nettoie les anciens écouteurs s'il y en a
+            this.$el.on('click', '.start-button-task', function (e) {
+                e.preventDefault();
+                const recordId = $(this).data('id');
+                // alert("start");
+                 apiStart(self,recordId,function () {
+                    self._showTaskVehicleRma();
+                 })
+            });
+        },
+        _render_end_button_task : function (){
+            const self = this;
+            this.$el.off('click', '.end-button-task'); // Nettoie les anciens écouteurs s'il y en a
+            this.$el.on('click', '.end-button-task', function (e) {
+                e.preventDefault();
+                const recordId = $(this).data('id');
+                // alert("start");
+                apiEnd(self,recordId,function () {
+                    self._showTaskVehicleRma();
+                })
+            });
+        },
+        _showDetailsVehicleRma : function () {
+            if(this.rmaSeleted){
+                console.log(core.qweb)
+                insertDetailsVehicleInHtml(core.qweb,this.rmaSeleted)
+            }
+        },
+        _showTaskVehicleRma : function () {
+            if(this.rmaSeleted){
+                getAllTaskVehicleRma(this,this.rmaSeleted.rma_id,function (data) {
+                    console.log("task rma",data)
+                    let dataGroup = taskVehicleGroupByRma(data,session.uid)
+                    let dataGroupSortByRepairId = taskVehicleRmaSortByRepairId(dataGroup);
+                    let taskAssigne = funNumberTaskAssigne(dataGroupSortByRepairId)
+                    showTaskAssigneAndNo(taskAssigne,dataGroupSortByRepairId.length - taskAssigne)
+                    insertTacheVehicleInHtml(core.qweb,dataGroupSortByRepairId)
+                })
+            }
         }
 
     });

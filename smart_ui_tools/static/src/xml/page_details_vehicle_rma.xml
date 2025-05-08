@@ -1,7 +1,7 @@
 <templates>
 <t t-name="PageDetailsVehicleRma">
     <div class="p-2 mb-3 bg-body-tertiary rounded-3">
-        <h1 class="display-6 text-bold">
+        <h1 class="display-6" style="font-weight:bold;color:rgb(0, 160, 157)">
             <t t-esc="vehicle.name2"/>
         </h1>
         <ul class="list-unstyled mb-0">

@@ -102,13 +102,12 @@ odoo.define('smart_ui_tools.vehicle.rma', function (require) {
                     let dataGroup = taskVehicleGroupByRma(data,session.uid)
                     let dataGroupSortByRepairId = taskVehicleRmaSortByRepairId(dataGroup);
                     let taskAssigne = getTaskAssigne(dataGroupSortByRepairId);
-                    let noEndTask =  getTaskNotEnd(taskAssigne)
-                    let noStartTask =  getTaskNotStart(taskAssigne)
-                    showTaskAssigneAndNo(taskAssigne.length,dataGroupSortByRepairId.length - taskAssigne.length,noStartTask.length,
-                        noEndTask.length
+                    let taskend = getTaskEnd(taskAssigne);
+                    showTaskAssigneAndNo(taskAssigne.length,dataGroupSortByRepairId.length - taskAssigne.length,taskend.length,
+                        0
                     )
                     insertTacheVehicleInHtml(core.qweb,dataGroupSortByRepairId);
-                    if(noEndTask.length === 0 && noStartTask.length === 0){
+                    if(taskAssigne.length === taskend.length){
                         self._showListVehicleRma(responsive_open);
                     }
                     

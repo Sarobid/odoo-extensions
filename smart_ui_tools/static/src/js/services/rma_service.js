@@ -485,19 +485,19 @@ function getTaskAssigne(data){
     return data.filter(item => item.assigne);
 }
 
-function getTaskNotEnd(data){
-  return data.filter(item => !item.date_end_service);
+function getTaskEnd(data){
+  return data.filter(item => item.date_end_service && item.date_start_service);
 }
 
 function getTaskNotStart(data){
   return data.filter(item => !item.date_start_service);
 }
 
-function showTaskAssigneAndNo(task,notask,noStart,noEnd){
+function showTaskAssigneAndNo(task,notask,end,noEnd){
     document.getElementById("taskNonAssigneid").textContent = notask;
     document.getElementById("taskAssigneid").textContent = task;
-    document.getElementById("taskNotStartid").textContent = noStart;
-    document.getElementById("taskNotEndid").textContent = noEnd; 
+    document.getElementById("taskNotStartid").textContent = end;
+    // document.getElementById("taskNotEndid").textContent = noEnd; 
 }
 
 

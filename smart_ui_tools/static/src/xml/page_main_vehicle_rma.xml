@@ -29,13 +29,13 @@
                                 </div>
                                 <div class="d-flex" style="margin-bottom:5px">
                                     <span class="text-muted">
-                                        Non commencés : 
-                                        <span class="num-task-assigne" id="taskNotStartid"></span>
+                                        Fait : 
+                                        <span class="num-task-assigne-end" id="taskNotStartid"></span>
                                     </span>
-                                    <span class="text-muted">
+                                    <!-- <span class="text-muted">
                                         Non terminés : 
-                                        <span class="num-task-non-assigne" id="taskNotEndid"></span>
-                                    </span>
+                                        <span class="num-task-assigne-no-end" id="taskNotEndid"></span>
+                                    </span> -->
                                 </div>
                             </div>
                         </div>

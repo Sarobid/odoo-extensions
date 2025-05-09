@@ -1,3 +1,9 @@
+:root {
+    --color-no-start: #e83e8c;
+    --color-no-end: #ffc107;
+    --color-end : rgb(0, 160, 157);
+}
+  
 .details-vehicle{
     border: 1px solid rgb(131, 129, 129);
     height: 100vh;
@@ -5,14 +11,43 @@
 .w3-sidebar{height:100%;width:200px;background-color:#fff;position:fixed!important;z-index:1;overflow:auto}
 
 .assigne{
-    border: 5px solid rgb(0, 160, 157);
+    border: 5px solid var(--color-end);
     background-color: #fff;
 }
 
+.div-no-start{
+    border: 5px solid var(--color-no-start);
+}
+.div-no-end{
+    border: 5px solid var(--color-no-end);
+}
+.div-end{
+    border: 5px solid var(--color-end);
+}
+
+
 .num-task-assigne {
-    background-color: rgb(0, 160, 157);
-    border-radius: 8px; /* ou 999px pour un badge arrondi complet */
+    background-color: #007bff;
+    border-radius: 8px;
     color: white;
+    padding: 2px 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.num-task-assigne-end {
+    background-color: var(--color-end);
+    border-radius: 8px;
+    color: white;
+    padding: 2px 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.num-task-assigne-no-end {
+    background-color: var(--color-no-end);
+    border-radius: 8px;
+    color: black;
     padding: 2px 8px;
     font-size: 0.85rem;
     font-weight: bold;
@@ -31,6 +66,47 @@
 .non-assigne{
     background-color: lightgray;
 }
+
+.start-button-task {
+    background: linear-gradient(to bottom, #34d058, #28a745); /* effet dégradé */
+    border: 1px solid #28a745;
+    border-radius: 6px 6px 6px 6px; /* coins arrondis en haut uniquement */
+    color: white;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.4);
+    transition: all 0.3s ease;
+}
+
+.start-button-task:hover {
+    background: linear-gradient(to bottom, #2ebd59, #218838);
+    border-color: #1e7e34;
+    box-shadow: 0 4px 6px rgba(33, 136, 56, 0.5);
+}
+
+.end-button-task {
+    background: linear-gradient(to bottom, #339af0, #007bff); /* dégradé bleu */
+    border: 1px solid #007bff;
+    border-radius: 6px 6px 6px 6px;
+    color: white;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.4);
+    transition: all 0.3s ease;
+}
+
+.end-button-task:hover {
+    background: linear-gradient(to bottom, #2f89d7, #0069d9);
+    border-color: #005cbf;
+    box-shadow: 0 4px 6px rgba(0, 105, 217, 0.5);
+}
+
 .smart_button{
     background-color: rgb(0, 160, 157);
     border-bottom-color: rgb(0, 160, 157);
@@ -84,39 +160,4 @@
     vertical-align: middle;
 }
 
-.start-button-task {
-    background-color: #28a745; /* Vert Bootstrap amélioré */
-    border: 1px solid #28a745;
-    border-radius: 4px;
-    color: #fff;
-    padding: 6px 12px;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 
-.start-button-task:hover {
-    background-color: #218838;
-    border-color: #1e7e34;
-    color: #fff;
-}
-.end-button-task {
-    background-color: #007bff; /* Bleu Bootstrap */
-    border: 1px solid #007bff;
-    border-radius: 4px;
-    color: #fff;
-    padding: 6px 12px;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.end-button-task:hover {
-    background-color: #0069d9;
-    border-color: #005cbf;
-    color: #fff;
-}

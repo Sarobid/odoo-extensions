@@ -86,25 +86,30 @@ function insertListVehicleInHtml(qweb,dataVehicle){
 }
 
 function w3_open() {
-    const items = document.querySelectorAll('.vehicle-item');
     if (window.innerWidth <= 800) { // Mobile
         document.getElementById("main-vehicle").style.marginRight = "0%";
         document.getElementById("details-vehicle").style.width = "100%";
     } else { // Desktop
         document.getElementById("main-vehicle").style.marginRight = "50%";
         document.getElementById("details-vehicle").style.width = "50%";
-        if(window.innerWidth <= 900){
-            items.forEach(el => {
-                el.className = 'vehicle-item col-12 mb-3';
-            });
-        }else{
-            items.forEach(el => {
-                el.className = 'vehicle-item col-6 mb-3';
-            });
-        }
-
+        responsive_open()
     }
     document.getElementById("details-vehicle").style.display = "block";
+}
+
+function responsive_open(){
+  const items = document.querySelectorAll('.vehicle-item');
+  console.log("responsive",items)
+  if(window.innerWidth <= 900){
+    items.forEach(el => {
+        el.className = 'vehicle-item col-12 mb-3';
+    });
+    }else{
+    items.forEach(el => {
+        el.className = 'vehicle-item col-6 mb-3';
+  });
+}
+
 }
 
 function w3_close() {

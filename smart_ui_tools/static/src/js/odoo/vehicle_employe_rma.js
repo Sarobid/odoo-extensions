@@ -24,7 +24,7 @@ odoo.define('smart_ui_tools.vehicle.rma', function (require) {
                 // dataVehicle: self.dataVehicle
             });
             this.$el.html(templateHtml);
-            self._showListVehicleRma()
+            self._showListVehicleRma(function () {})
             self._render_button_details();
             self._render_button_close_details();
             self._render_start_button_task();
@@ -80,11 +80,12 @@ odoo.define('smart_ui_tools.vehicle.rma', function (require) {
                 })
             });
         },
-        _showListVehicleRma : function () {
+        _showListVehicleRma : function (traiteApp) {
             const self = this;
             getAllVehicleRmaMecano(this,session.uid,function (data){
                 self.dataVehicle = data
                 insertListVehicleInHtml(core.qweb,self.dataVehicle)
+                traiteApp()
             }) 
         },
         _showDetailsVehicleRma : function () {
@@ -108,7 +109,7 @@ odoo.define('smart_ui_tools.vehicle.rma', function (require) {
                     )
                     insertTacheVehicleInHtml(core.qweb,dataGroupSortByRepairId);
                     if(noEndTask.length === 0 && noStartTask.length === 0){
-                        self._showListVehicleRma();
+                        self._showListVehicleRma(responsive_open);
                     }
                     
                 })

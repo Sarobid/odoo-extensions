@@ -1,50 +1,73 @@
 <templates>
-    <t t-name="PageMainVehicleRma">
-        <div class="container-fluid">
-            <div id="main-vehicle">
-                
+  <t t-name="PageMainVehicleRma">
+    <div class="container-fluid">
+      <div id="main-vehicle"></div>
+
+      <!-- Sidebar -->
+      <div class="w3-sidebar shadow rounded bg-white" style="display:none; border-left:2px solid #ccc; right:0; top:0; width: 400px; max-width: 100%;" id="details-vehicle">
+        <div class="container-fluid d-flex flex-column p-0 h-100">
+
+          <!-- Sticky Header -->
+          <div class="border-bottom sticky-top bg-white py-3 px-4" style="z-index:1000;">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="mb-0 fw-bold">Détails du véhicule</h5>
+              <button type="button" class="btn btn-sm smart_button" aria-label="Fermer" id="close-details-vehicle">Fermer</button>
             </div>
-            <div class="w3-sidebar" style="display:none; border:2px solid gray; right:0; top:0;" id="details-vehicle">
-                <div class="container-fluid">
-                    <div class="header border-bottom" style="position: sticky; top: 0; z-index: 1000; background-color: white;">
-                        <div class="d-flex justify-content-between align-items-center border-bottom" style="height:50px">
-                            <h5 class="mb-0" style="font-weight:bold">Détails du véhicule</h5>
-                            <button type="button" class="btn-close btn-success smart_button" aria-label="Fermer" id="close-details-vehicle">Fermer</button>
-                        </div>
-                        <div id="details-vehicle-head" class="border-bottom"></div>
-                            <div class="container-fluid">
-                                <div class="d-flex justify-content-between align-items-center " style="height:50px">
-                                    <h4 class="mb-0" style="font-weight:bold">Tache à faire
-                                    </h4>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-left" style="margin-bottom:5px">
-                                    <span class="text-muted">
-                                        Assigné : 
-                                        <span class="num-task-assigne" id="taskAssigneid"></span>
-                                    </span>
-                                    <span class="text-muted">
-                                        Non assigné: 
-                                        <span class="num-task-non-assigne" id="taskNonAssigneid"></span>
-                                    </span>
-                                </div>
-                                <div class="d-flex" style="margin-bottom:5px">
-                                    <span class="text-muted">
-                                        Fait : 
-                                        <span class="num-task-assigne-end" id="taskNotStartid"></span>
-                                    </span>
-                                    <!-- <span class="text-muted">
-                                        Non terminés : 
-                                        <span class="num-task-assigne-no-end" id="taskNotEndid"></span>
-                                    </span> -->
-                                </div>
-                            </div>
-                        </div>
-                    <div class="container-fluid">
-                        <div id="details-vehicle-tache" style="margin-top:10px"></div>
-                    </div>
-                </div>
+          </div>
+
+          <!-- Sticky Head + Tâches -->
+          <div class="sticky-top bg-white px-4 pt-3" style="top:60px; z-index:999;">
+            <div id="details-vehicle-head" class="pb-3 border-bottom"></div>
+
+            <!-- Tâches à faire -->
+            <div class="pb-3 border-bottom">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 class="fw-bold mb-0">Tâches à faire</h4>
+                <button class="btn btn-sm btn-light" id="toggle-task-stats" aria-label="Toggle Stats">⬆️</button>
+              </div>
+
+              <!-- Zone affichable/masquable -->
+              <div class="mb-2" id="task-stats" style="display: block;">
+                <span class="text-muted me-3">
+                  <strong>Assigné :</strong>
+                  <span class="num-task-assigne" id="taskAssigneid"></span>
+                </span>
+                <span class="text-muted">
+                  <strong>Fait :</strong>
+                  <span class="num-task-assigne-end" id="taskNotStartid"></span>
+                </span>
+                <span class="text-muted">
+                  <strong>Non assigné :</strong>
+                  <span class="num-task-non-assigne" id="taskNonAssigneid"></span>
+                </span>
+
+              </div>
+
             </div>
+          </div>
+
+          <!-- Scrollable Content -->
+          <div class="flex-grow-1 overflow-auto px-4" style="margin-top:10px">
+            <div id="details-vehicle-tache" class="mt-2"></div>
+          </div>
 
         </div>
-    </t>
+      </div>
+    </div>
+
+    <!-- JS Toggle Logic -->
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#toggle-task-stats').click(function () {
+          const $stats = $('#task-stats');
+          $stats.slideToggle(200);
+          const $btn = $(this);
+          const isVisible = $stats.is(':visible');
+          setTimeout(() => {
+            $btn.text($stats.is(':visible') ? '⬆️' : '⬇️');
+          }, 210);
+        });
+      });
+    </script>
+  </t>
 </templates>

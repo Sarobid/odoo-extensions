@@ -20,7 +20,8 @@ class vehicle_employee(models.Model):
     task_end = fields.Integer(string="nombre tache treminee")
     is_task_no_end = fields.Boolean(string="Exist-il de tache ?")
     state_ro = fields.Char(String="STATUS")
-
+    customer_id = fields.Many2one("res.partner",string="Client")
+    
     def _query(self):
         return """
         select     
@@ -41,7 +42,8 @@ class vehicle_employee(models.Model):
 			SUM(CASE WHEN d.date_start_service is not null and d.date_end_service is not null then 1
 			else 0 end) as task_end,
             (COUNT(*) != SUM(CASE WHEN d.date_start_service is not null and d.date_end_service is not null then 1 else 0 end)) as is_task_no_end,
-            a.state_ro
+            a.state_ro,
+            a.customer_id
         from fleet_vehicle_log_services a
 		join fleet_vehicle_cost f on f.id=a.cost_id
 		join fleet_vehicle b on f.vehicle_id=b.id
@@ -66,7 +68,8 @@ class vehicle_employee(models.Model):
 			i.name,
             g.user_id,
 			i.vehicle_type,
-            a.state_ro)
+            a.state_ro,
+            a.customer_id)
             """
     
     def init(self):

@@ -9,7 +9,7 @@ function getAllVehicleRmaMecano(odooClient,uid,traiteData){
                 ['state_ro','=','repair']
             ],
             ['id', 'name2', 'vehicle_id', 'hr_employee_id','license_plate','vin_sn','brand_id','model_id','rma_id','vehicle_type',
-              'number_task','task_end','is_task_no_end'
+              'number_task','task_end','is_task_no_end','customer_id'
             ]
         ],
        }).then(data => {
@@ -73,6 +73,8 @@ function getDetailsRma(dataFilter,rmaid){
 function insertDetailsVehicleInHtml(qweb,vehicleRma){
     const html = qweb.render('PageDetailsVehicleRma', { vehicle: vehicleRma });
     // console.log(html)
+    document.getElementById("vin-details").textContent = vehicleRma.vin_sn
+    document.getElementById("plaque-details").textContent = vehicleRma.license_plate
     document.getElementById("details-vehicle-head").innerHTML = html;
 }
 function insertTacheVehicleInHtml(qweb,listeTacheVehicle){

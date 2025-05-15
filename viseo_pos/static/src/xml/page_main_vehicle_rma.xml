@@ -10,24 +10,31 @@
           <!-- Sticky Header -->
           <div class="border-bottom sticky-top bg-white py-3 px-4" style="z-index:1000;">
             <div class="d-flex justify-content-between align-items-center">
-              <h5 class="mb-0 fw-bold">Détails du véhicule</h5>
+              <div class="">
+                <h6 class="mb-0">
+                  <strong style="font-weight:bold">VIN : <span id="vin-details"></span></strong>
+                 </h6>
+                <h6 class="fw-bold mb-0">
+                  <strong style="font-weight:bold">Plaque : <span id="plaque-details"></span> </strong>
+                </h6>
+                </div>
               <button type="button" class="btn btn-sm smart_button" aria-label="Fermer" id="close-details-vehicle">Fermer</button>
             </div>
           </div>
 
           <!-- Sticky Head + Tâches -->
-          <div class="sticky-top bg-white px-4 pt-3" style="top:60px; z-index:999;">
-            <div id="details-vehicle-head" class="pb-3 border-bottom"></div>
+          <div class="sticky-top bg-white px-4 pt-0" style="top:0px; z-index:999;">
+            <div id="details-vehicle-head" class="pt-2"></div>
 
             <!-- Tâches à faire -->
-            <div class="pb-3 border-bottom">
-              <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="pb-0 border-bottom">
+              <div class="d-flex justify-content-between align-items-center mb-0">
                 <h4 class="fw-bold mb-0">Tâches à faire</h4>
                 <button class="btn btn-sm btn-light" id="toggle-task-stats" aria-label="Toggle Stats">⬆️</button>
               </div>
 
               <!-- Zone affichable/masquable -->
-              <div class="mb-2" id="task-stats" style="display: block;">
+              <div class="mb-0" id="task-stats" style="display: none;">
                 <span class="text-muted me-3">
                   <strong>Assigné :</strong>
                   <span class="num-task-assigne" id="taskAssigneid"></span>

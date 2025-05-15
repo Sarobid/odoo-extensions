@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_my_vehicles_root" name="Mes véhicules" sequence="10" 
+            action="action_client_list_vehicle_employee_id"/>
+</odoo>

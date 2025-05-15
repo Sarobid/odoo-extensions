@@ -1,0 +1,163 @@
+:root {
+    --color-no-start: #e83e8c;
+    --color-no-end: #ffc107;
+    --color-end : rgb(0, 160, 157);
+}
+  
+.details-vehicle{
+    border: 1px solid rgb(131, 129, 129);
+    height: 100vh;
+}
+.w3-sidebar{height:100%;width:200px;background-color:#fff;position:fixed!important;z-index:1;overflow:auto}
+
+.assigne{
+    border: 5px solid var(--color-end);
+    background-color: #fff;
+}
+
+.div-no-start{
+    border: 5px solid var(--color-no-start);
+}
+.div-no-end{
+    border: 5px solid var(--color-no-end);
+}
+.div-end{
+    border: 5px solid var(--color-end);
+}
+
+
+.num-task-assigne {
+    background-color: #007bff;
+    border-radius: 8px;
+    color: white;
+    padding: 2px 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.num-task-assigne-end {
+    background-color: var(--color-end);
+    border-radius: 8px;
+    color: white;
+    padding: 2px 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.num-task-assigne-no-end {
+    background-color: var(--color-no-end);
+    border-radius: 8px;
+    color: black;
+    padding: 2px 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.num-task-non-assigne {
+    background-color: lightgray;
+    color: #030303;
+    border: 1px solid #030303;
+    border-radius: 10px;
+    padding: 2px 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.non-assigne{
+    background-color: lightgray;
+}
+
+.start-button-task {
+    background: linear-gradient(to bottom, #34d058, #28a745); /* effet dégradé */
+    border: 1px solid #28a745;
+    border-radius: 6px 6px 6px 6px; /* coins arrondis en haut uniquement */
+    color: white;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.4);
+    transition: all 0.3s ease;
+}
+
+.start-button-task:hover {
+    background: linear-gradient(to bottom, #2ebd59, #218838);
+    border-color: #1e7e34;
+    box-shadow: 0 4px 6px rgba(33, 136, 56, 0.5);
+}
+
+.end-button-task {
+    background: linear-gradient(to bottom, #339af0, #007bff); /* dégradé bleu */
+    border: 1px solid #007bff;
+    border-radius: 6px 6px 6px 6px;
+    color: white;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.4);
+    transition: all 0.3s ease;
+}
+
+.end-button-task:hover {
+    background: linear-gradient(to bottom, #2f89d7, #0069d9);
+    border-color: #005cbf;
+    box-shadow: 0 4px 6px rgba(0, 105, 217, 0.5);
+}
+
+.smart_button{
+    background-color: rgb(0, 160, 157);
+    border-bottom-color: rgb(0, 160, 157);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-image-outset: 0;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-left-color: rgb(0, 160, 157);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-color: rgb(0, 160, 157);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-color: rgb(0, 160, 157);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    direction: ltr;
+    display: inline-block;
+    font-family: "Roboto", "Odoo Unicode Support Noto", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 19.5px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    overflow-x: visible;
+    overflow-y: visible;
+    padding-bottom: 4.5px;
+    padding-left: 9px;
+    padding-right: 9px;
+    padding-top: 4.5px;
+    text-align: center;
+    text-transform: uppercase;
+    transition-behavior: normal, normal, normal, normal;
+    transition-delay: 0s, 0s, 0s, 0s;
+    transition-duration: 0.15s, 0.15s, 0.15s, 0.15s;
+    transition-property: color, background-color, border-color, box-shadow;
+    transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out;
+    user-select: none;
+    vertical-align: middle;
+}
+
+

@@ -1,0 +1,26 @@
+<templates>
+<t t-name="PageDetailsVehicleRma">
+    <div class="p-2 mb-3 bg-body-tertiary rounded-3">
+        <h1 class="display-6" style="font-weight:bold;color:rgb(0, 160, 157)">
+            <t t-esc="vehicle.name2"/>
+        </h1>
+        <ul class="list-unstyled mb-0">
+            <li><strong>Plaque :</strong> <t t-esc="vehicle.license_plate"/></li>
+            <li><strong>Marque :</strong>
+                <t t-if="vehicle.brand_id"><t t-esc="vehicle.brand_id[1]"/></t>
+                <t t-else="">Non défini</t>
+            </li>
+            <li><strong>Modèle :</strong>
+                <t t-if="vehicle.model_id"><t t-esc="vehicle.model_id[1]"/></t>
+                <t t-else="">Non défini</t>
+            </li>
+            <li><strong>Type :</strong>
+                <t t-if="vehicle.vehicle_type"><t t-esc="vehicle.vehicle_type[1]"/></t>
+                <t t-else="">Non défini</t>
+            </li>
+            <li><strong>VIN :</strong> <t t-esc="vehicle.vin_sn"/></li>
+        </ul>
+    </div>
+</t>
+
+</templates>

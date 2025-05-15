@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_list_vehicle_employee_id">
+        <field name="name">view.list.vehicle.employee.id</field>
+        <field name="model">v.smart.vehicle.employee</field>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <tree string="Mes véhicules">
+                <field name="name2" string=" Réference de réparation"></field>
+                <field name="vehicle_id" string="Véhicule"></field>
+                <field name="hr_employee_id" string="Employé"></field>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

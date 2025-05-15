@@ -1,0 +1,83 @@
+<templates>
+  <t t-name="PageListeVehicleRma">
+    <div class="container-fluid p-0">
+      <!-- <h2 class="mb-4 fw-bold" style="font-weight:bold;color:rgb(0, 160, 157)">🚗 Mes Véhicules</h2> -->
+    <div class="bg-white py-4 px-4 mb-4 rounded-bottom" >
+        <h2 class="mb-0 fw-bold" style="font-weight:bold">🚗 Mes véhicules</h2>
+      </div>
+
+      <!-- Scrollable zone -->
+       <div class="container-fluid px-4">
+      <div class="row g-4 oe_background_grey" style="max-height: 88vh; overflow-y: auto;">
+        <t t-foreach="dataVehicle" t-as="item">
+          <div class="vehicle-item col-12 col-md-6 col-lg-4 mb-3">
+            <div class="card h-100 shadow-sm border-0 vehicle-card" t-att-data-id="item.id" style="cursor:pointer; padding: 1.5rem;">
+
+              <!-- Titre principal -->
+              <div class="mb-3">
+                <h4 class="fw-bold mb-1" style="font-weight:bold;color:rgb(0, 160, 157)">
+                  <t t-esc="item.name2" />
+                </h4>
+                <hr class="my-2" />
+              </div>
+
+              <!-- Informations -->
+              <div class="text-dark fs-6">
+                <p class="mb-2"><strong>Plaque :</strong> <span class=""><t t-esc="item.license_plate" /></span></p>
+
+                <p class="mb-2"><strong>Marque :</strong> 
+                  <span class="">
+                    <t t-if="item.brand_id"><t t-esc="item.brand_id[1]" /></t>
+                    <t t-else="">Non défini</t>
+                  </span>
+                </p>
+
+                <p class="mb-2"><strong>Modèle :</strong> 
+                  <span class="">
+                    <t t-if="item.model_id"><t t-esc="item.model_id[1]" /></t>
+                    <t t-else="">Non défini</t>
+                  </span>
+                </p>
+
+                <p class="mb-2"><strong>Type :</strong> 
+                  <span class="">
+                    <t t-if="item.vehicle_type"><t t-esc="item.vehicle_type[1]" /></t>
+                    <t t-else="">Non défini</t>
+                  </span>
+                </p>
+
+                <p class="mb-0"><strong>VIN :</strong> <span class=""><t t-esc="item.vin_sn" /></span></p>
+              </div>
+
+            </div>
+          </div>
+        </t>
+      </div>
+      </div>
+    </div>
+
+    <!-- Style -->
+    <style>
+      .vehicle-card {
+        background-color: #fff;
+        border-radius: 12px;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .vehicle-card:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        background-color: #fff;
+        transform: translateY(-4px);
+      }
+
+      .vehicle-card p {
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+
+      h4 {
+        font-size: 1.25rem;
+      }
+    </style>
+  </t>
+</templates>

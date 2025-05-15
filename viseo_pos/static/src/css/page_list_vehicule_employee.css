@@ -106,6 +106,83 @@
     border-color: #005cbf;
     box-shadow: 0 4px 6px rgba(0, 105, 217, 0.5);
 }
+.block-button-task{
+    background: linear-gradient(to bottom, #f03333, #ff0022); /* dégradé bleu */
+    border: 1px solid #ff004c;
+    border-radius: 6px 6px 6px 6px;
+    color: white;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(255, 0, 64, 0.4);
+    transition: all 0.3s ease;
+}
+.block-button-task{
+    background: linear-gradient(to bottom, #d72f3d, #d90036);
+    border-color: #bf0039;
+    box-shadow: 0 4px 6px rgba(217, 0, 47, 0.5);
+} 
+
+.break-button-task{
+    background: linear-gradient(to bottom, #edf033, #ffe600); /* dégradé bleu */
+    border: 1px solid #ffe600;
+    border-radius: 6px 6px 6px 6px;
+    color: white;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(255, 238, 0, 0.4);
+    transition: all 0.3s ease;
+}
+.break-button-task{
+    background: linear-gradient(to bottom, #d7c62f, #d9c300);
+    border-color: #bfbc00;
+    box-shadow: 0 4px 6px rgba(217, 195, 0, 0.5);
+}   
+
+.unblock-button-task {
+    background: linear-gradient(to bottom, #34d058, #28a745); /* effet dégradé */
+    border: 1px solid #28a745;
+    border-radius: 6px 6px 6px 6px; /* coins arrondis en haut uniquement */
+    color: white;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.4);
+    transition: all 0.3s ease;
+}
+
+.unblock-button-task:hover {
+    background: linear-gradient(to bottom, #2ebd59, #218838);
+    border-color: #1e7e34;
+    box-shadow: 0 4px 6px rgba(33, 136, 56, 0.5);
+}
+
+.unbreak-button-task {
+    background: linear-gradient(to bottom, #34d058, #28a745); /* effet dégradé */
+    border: 1px solid #28a745;
+    border-radius: 6px 6px 6px 6px; /* coins arrondis en haut uniquement */
+    color: white;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.4);
+    transition: all 0.3s ease;
+}
+
+.unbreak-button-task:hover {
+    background: linear-gradient(to bottom, #2ebd59, #218838);
+    border-color: #1e7e34;
+    box-shadow: 0 4px 6px rgba(33, 136, 56, 0.5);
+}
 
 .smart_button{
     background-color: rgb(0, 160, 157);

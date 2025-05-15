@@ -6,3 +6,4 @@ from . import vehicle_employee
 from . import v_service_product_list
 from . import res_user
 from . import service_product_list
+from . import follow_hr_emp_service_prod

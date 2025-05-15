@@ -11,12 +11,13 @@
           <div class="border-bottom sticky-top bg-white py-3 px-4" style="z-index:1000;">
             <div class="d-flex justify-content-between align-items-center">
               <div class="">
-                <h6 class="mb-0">
+                <h7 class="mb-0">
                   <strong style="font-weight:bold">VIN : <span id="vin-details"></span></strong>
-                 </h6>
-                <h6 class="fw-bold mb-0">
+                 </h7>
+                 <br/>
+                <h7 class="fw-bold mb-0">
                   <strong style="font-weight:bold">Plaque : <span id="plaque-details"></span> </strong>
-                </h6>
+                </h7>
                 </div>
               <button type="button" class="btn btn-sm smart_button" aria-label="Fermer" id="close-details-vehicle">Fermer</button>
             </div>

@@ -51,8 +51,17 @@
                                             <button class="btn start-button-task" t-att-data-id="item.service_product_list_id">Commencer</button>
                                         </t>
                                         <t t-elif="!item.date_end_service">
-                                            <!-- Affiche bouton Terminer si elle a commencé mais pas encore fini -->
-                                            <button class="btn end-button-task" t-att-data-id="item.service_product_list_id">Terminer</button>
+                                            <t t-if="!item.state_follow">
+                                                <button class="btn block-button-task" t-att-data-id="item.hr_employee_service_prod_list_id">Bloquer</button>
+                                                <button class="btn break-button-task" t-att-data-id="item.hr_employee_service_prod_list_id">Pause</button>
+                                                <button class="btn end-button-task" t-att-data-id="item.service_product_list_id">Terminer</button>
+                                            </t>
+                                            <t t-elif="item.state_follow === 'block'">
+                                                <button class="btn unblock-button-task" t-att-data-id="item.hr_employee_service_prod_list_id">Débloquer</button>
+                                            </t>
+                                            <t t-elif="item.state_follow === 'break'">
+                                                <button class="btn unbreak-button-task" t-att-data-id="item.hr_employee_service_prod_list_id">Reprendre</button>
+                                            </t>    
                                         </t>
                                         <t t-else="">
                                             <!-- Affiche "Fait" si la tâche est terminée -->

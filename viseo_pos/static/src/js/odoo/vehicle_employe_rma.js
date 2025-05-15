@@ -29,6 +29,10 @@ odoo.define('viseo_pos.vehicle.rma', function (require) {
             self._render_button_close_details();
             self._render_start_button_task();
             self._render_end_button_task();
+            self._render_block_button_task();
+            self._render_break_button_task();
+            self._render_unblock_button_task();
+            self._render_unbreak_button_task();
             return this._super.apply(this, arguments);
         },
         _render_button_details : function () {
@@ -76,6 +80,50 @@ odoo.define('viseo_pos.vehicle.rma', function (require) {
                 const recordId = $(this).data('id');
                 // alert("start");
                 apiEnd(self,recordId,function () {
+                    self._showTaskVehicleRma();
+                })
+            });
+        },
+        _render_block_button_task : function (){
+            const self = this;
+            this.$el.off('click', '.block-button-task'); // Nettoie les anciens écouteurs s'il y en a
+            this.$el.on('click', '.block-button-task', function (e) {
+                e.preventDefault();
+                const recordId = $(this).data('id');
+                rma_follow_service.block_start(self,recordId,function () {
+                    self._showTaskVehicleRma();
+                })
+            });
+        },
+        _render_break_button_task : function (){
+            const self = this;
+            this.$el.off('click', '.break-button-task'); // Nettoie les anciens écouteurs s'il y en a
+            this.$el.on('click', '.break-button-task', function (e) {
+                e.preventDefault();
+                const recordId = $(this).data('id');
+                rma_follow_service.break_start(self,recordId,function () {
+                    self._showTaskVehicleRma();
+                })
+            });
+        },
+        _render_unblock_button_task : function (){
+            const self = this;
+            this.$el.off('click', '.unblock-button-task'); // Nettoie les anciens écouteurs s'il y en a
+            this.$el.on('click', '.unblock-button-task', function (e) {
+                e.preventDefault();
+                const recordId = $(this).data('id');
+                rma_follow_service.block_end(self,recordId,function () {
+                    self._showTaskVehicleRma();
+                })
+            });
+        },
+        _render_unbreak_button_task : function (){
+            const self = this;
+            this.$el.off('click', '.unbreak-button-task'); // Nettoie les anciens écouteurs s'il y en a
+            this.$el.on('click', '.unbreak-button-task', function (e) {
+                e.preventDefault();
+                const recordId = $(this).data('id');
+                rma_follow_service.break_end(self,recordId,function () {
                     self._showTaskVehicleRma();
                 })
             });

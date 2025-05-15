@@ -28,10 +28,10 @@ function getAllTaskVehicleRma(odooClient,rma_id,traiteData){
         args: [
             [['repair_id', '=', rma_id]],
             ['id', 'namelibre', 'operation_done', 'product_id','product_qty','repair_id','service_work_id'
-                ,'service_product_list_id','hr_employee_id','user_id','date_start_service','date_end_service']
+                ,'service_product_list_id','hr_employee_id','user_id','date_start_service','date_end_service','state_follow','hr_employee_service_prod_list_id']
         ],
        }).then(data => {
-        // console.log("data task vehicle rma",data)
+         console.log("data task vehicle rma",data)
         traiteData(data)
     }).catch(error => {
         console.error("Erreur chargement", error);
@@ -52,6 +52,7 @@ function apiStart(odooClient,service_id,traite){
   });
 }
 
+    
 function apiEnd(odooClient,service_id,traite){
 //   console.log("end task",service_id)
   return odooClient._rpc({

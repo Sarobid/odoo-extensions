@@ -4,9 +4,44 @@ from datetime import datetime, time, timedelta
 class service_product_list(models.Model):
     _inherit = "service.product.list"
 
-    hr_employee_service_ids = fields.One2many("hr_employee.service.product.list.rel",inverse_name="service_product_list_id",string="liste service employe")
+    hr_employee_service_ids = fields.One2many("hr_employee.service.product.list.rel",inverse_name="service_product_list_id"
+                                              ,string="liste service employe")
     date_start_service = fields.Datetime(string="Date commencement du tache")
     date_end_service = fields.Datetime(string="Date fin du tache")
+    technician_display_status = fields.Html(
+        string="Etat des techniciens",
+        compute='_compute_technician_display'
+    )
+
+    @api.depends('hr_employee_service_ids', 'technician')
+    def _compute_technician_display(self):
+        for rec in self:
+            html = "<div style='line-height: 1.6;'>"
+            tech_id_order = rec.technician.ids
+            sorted_techs = sorted(
+                rec.hr_employee_service_ids,
+                key=lambda t: tech_id_order.index(t.hr_employee_id.id) if t.hr_employee_id.id in tech_id_order else 9999
+            )
+            for tech in sorted_techs:
+                color = "green"
+                follow_state = tech.get_follow_state()
+                color = follow_state['color']
+                status = follow_state['status']
+                html += (
+                    f"<div style='margin-bottom: 4px;'>"
+                    f"  <span style='"
+                    f"      background-color: {color};"
+                    f"      color: white;"
+                    f"      padding: 2px 6px;"
+                    f"      border-radius: 6px;"
+                    f"      font-size: 12px;"
+                    f"      margin-right: 6px;"
+                    f"  '>{status}</span>"
+                    f"  <span class='technician-name' style='font-weight: bold;'>{tech.hr_employee_id.name}</span>"
+                    f"</div>"
+                )
+                html += "</div>"
+            rec.technician_display_status = html
 
     @api.model
     def _calcule_date_start_end_service(self):

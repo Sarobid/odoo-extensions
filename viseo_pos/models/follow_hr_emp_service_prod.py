@@ -6,12 +6,20 @@ class follow_hr_emp_service_prod(models.Model):
 
     hr_emp_service_prod_id = fields.Many2one("hr_employee.service.product.list.rel",string="Service mecano")
     state_follow = fields.Selection([
-        ('block', 'Bloquer'),
+        ('block', 'Bloqué'),
         ('break', 'Pause')
         ])
     date_start = fields.Datetime(string="Date debut")
     date_end = fields.Datetime(string="Date fin")
 
+    def get_state_follow_name(self):
+        return dict(self._fields['state_follow'].selection).get(self.state_follow, '')
+    
+    def get_state_follow_color(self):
+        color = "#dc3545"
+        if self.state_follow == "break":
+            color = "#ffc107"
+        return color
     @api.model
     def start_break(self,hr_emp_service_prod_id):
         return self.create_start_follow(hr_emp_service_prod_id,"break")

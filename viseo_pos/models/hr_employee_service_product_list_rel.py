@@ -24,6 +24,25 @@ class hr_employee_service_product_list_rel(models.Model):
                 self._update_service_product_list_time(service_id)
         return {"status": "200"}
 
+    def get_follow_state(self):
+        status = "Non demarré"
+        color = "#6c757d"
+        if self.date_start_service:
+            status = "Demarré"
+            color = "#007bff"
+            if self.date_end_service:
+                status = "Terminé"
+                color = "#28a745"
+            followState =  self.env["follow.hr.emp.service.prod"].search([
+                        ('hr_emp_service_prod_id', '=', self.ids),
+                        ('date_end', '=', None),
+                        ('date_start', '!=', None)
+                    ], limit=1)
+            if followState:
+                status = followState.get_state_follow_name()
+                color = followState.get_state_follow_color()
+        return  {"status":status,"color":color}
+
     @api.model
     def _get_service_product_list_hr(self,service_id):
         return self.env['hr_employee.service.product.list.rel'].search([

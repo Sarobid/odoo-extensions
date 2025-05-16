@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="viseo_pos_fleet_vehicle_log_service_form_id" model="ir.ui.view">
+        <field name="name">viseo_pos.fleet.vehicle.log.service.form.id</field>
+        <field name="model">fleet.vehicle.log.services</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_list_id']/tree/field[@name='technician']" position="after">
+                <field name="technician_display_status" widget="html" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

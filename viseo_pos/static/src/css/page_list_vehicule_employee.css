@@ -237,4 +237,7 @@
     vertical-align: middle;
 }
 
+.o_list_view td .technician-name{
+    display: none;
+}
 

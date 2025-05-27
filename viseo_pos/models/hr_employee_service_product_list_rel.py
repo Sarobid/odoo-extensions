@@ -1,6 +1,9 @@
 from odoo import models, fields, api
 from datetime import datetime
 
+from viseo_13.viseo_custom_dashboard.models.model_methods import print_all
+
+
 class hr_employee_service_product_list_rel(models.Model):
     _name = "hr_employee.service.product.list.rel"
     _description = "Relation entre le table employe et service_product_list"
@@ -9,6 +12,30 @@ class hr_employee_service_product_list_rel(models.Model):
     hr_employee_id = fields.Many2one("hr.employee",string="Srvice product list")
     date_start_service = fields.Datetime(string="Date time start")
     date_end_service = fields.Datetime(string="Date time end")
+
+    def _get_heure_travail(self):
+        self.env.cr.execute("""select date_start,date_end from follow_hr_emp_service_prod a where a.hr_emp_service_prod_id=%s order by date_start asc""",(self.id,))
+        result = self.env.cr.fetchall()
+        array_htravail = []
+        if self.date_start_service:
+            dstart = self.date_start_service
+            dend = datetime.now()
+            for tmp_stop in result:
+                dend = tmp_stop[0]
+                array_htravail.append(self.calcul_heure_travail(dstart,dend))
+                if tmp_stop[1] is not None:
+                    dstart = tmp_stop[1]
+                else:
+                    dstart = datetime.now()
+            if self.date_end_service:
+                dend = self.date_end_service
+            else:
+                dend = datetime.now()
+            array_htravail.append(self.calcul_heure_travail(dstart,dend))
+        return array_htravail
+
+    def calcul_heure_travail(self,dstart,dend):
+        return {"start":dstart,"end":dend,"diff":(dend - dstart).total_seconds()}
 
     @api.model
     def commencer(self, service_id):
@@ -21,7 +48,6 @@ class hr_employee_service_product_list_rel(models.Model):
                 service_product_list.write({
                     "date_start_service": datetime.now()
                 })
-                self._update_service_product_list_time(service_id)
         return {"status": "200"}
 
     def get_follow_state(self):
@@ -51,13 +77,6 @@ class hr_employee_service_product_list_rel(models.Model):
         ], limit=1)
 
     @api.model
-    def _update_service_product_list_time(self,service_id):
-        service_product = self.env['service.product.list'].search([
-            ('id', '=', service_id),
-        ], limit=1)
-        service_product._update_time_done_date_start_end()
-
-    @api.model
     def terminer(self, service_id):
         print("terminer", service_id)
         if service_id:
@@ -68,7 +87,6 @@ class hr_employee_service_product_list_rel(models.Model):
                 service_product_list.write({
                     "date_end_service": datetime.now()
                 })
-            self._update_service_product_list_time(service_id)
         return {"status": "200"}
     
     @api.model

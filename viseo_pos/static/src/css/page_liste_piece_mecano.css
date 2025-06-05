@@ -1,0 +1,41 @@
+.denied-button{
+    background: linear-gradient(to bottom, #f03333, #ff0022); /* dégradé bleu */
+    border: 1px solid #ff004c;
+    border-radius: 6px 6px 6px 6px;
+    color: white;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(255, 0, 64, 0.4);
+    transition: all 0.3s ease;
+}
+.denied-button:hover {
+    background: linear-gradient(to bottom, #d72f3d, #d90036);
+    border-color: #bf0039;
+    box-shadow: 0 4px 6px rgba(217, 0, 47, 0.5);
+}
+
+.valid-button {
+    background: linear-gradient(to bottom, #34d058, #28a745); /* effet dégradé */
+    border: 1px solid #28a745;
+    border-radius: 6px 6px 6px 6px; /* coins arrondis en haut uniquement */
+    color: white;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.4);
+    transition: all 0.3s ease;
+}
+
+.valid-button:hover {
+    background: linear-gradient(to bottom, #2ebd59, #218838);
+    border-color: #1e7e34;
+    box-shadow: 0 4px 6px rgba(33, 136, 56, 0.5);
+}
+.o_hidden_column {
+    display: none !important;
+}

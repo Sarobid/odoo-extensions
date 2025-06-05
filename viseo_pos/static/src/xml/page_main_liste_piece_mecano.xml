@@ -1,0 +1,26 @@
+<templates>
+    <t t-name="PageMainListePieceMecano">
+        <div class="container-fluid p-0">
+            <div class="bg-white py-4 px-4 mb-4 rounded-bottom" >
+                <h2 class="mb-0 fw-bold" style="font-weight:bold">Mes pieces recu</h2>
+            </div>
+            <div class="alert alert-success" id="message-valid-success" role="alert" style="display:none;">
+                Validation pièces envoyées avec succès! 
+            </div>
+            <div class="alert alert-danger" id="message-denied-success" role="alert" style="display:none;">
+                Refus pièces envoyées avec succès!
+            </div>
+
+            <div id="piece-list-container">
+                
+            </div>
+        </div>
+        <!-- Style -->
+        <style>
+
+        h4 {
+            font-size: 1.25rem;
+        }
+        </style>
+    </t>
+</templates>

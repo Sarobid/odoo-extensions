@@ -6,10 +6,28 @@
               <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"/>  -->
               <!-- <link href="/viseo_pos/static/src/css/w3.css" rel="stylesheet"/> -->
               <link href="/viseo_pos/static/src/css/page_list_vehicule_employee.css" rel="stylesheet"/>
+              <link rel="stylesheet" href="viseo_pos/static/src/css/page_liste_piece_mecano.css"/>
               <script type="text/javascript" src="/viseo_pos/static/src/js/services/rma_follow_service.js"/>
               <script type="text/javascript" src="/viseo_pos/static/src/js/services/rma_service.js"/>
+              <script type="text/javascript" src="/viseo_pos/static/src/js/services/piece_mecano_service.js"/>
                <script type="text/javascript" src="/viseo_pos/static/src/js/odoo/vehicle_employe_rma.js"/>
+              <script type="text/javascript" src="/viseo_pos/static/src/js/odoo/list_piece_mecano.js"/>
+              <script type="text/javascript" src="/viseo_pos/static/src/js/services/event_channel_service.js"/>
+              <script type="text/javascript" src="/viseo_pos/static/src/js/odoo/event_channel.js"/>
+             <script type="text/javascript" src="/viseo_pos/static/src/js/odoo/hide_column_list_renderer.js"/>
+             
              </xpath>
+        </template>
+
+         <template id="mecano_js_variables" name="Mecano JS Variables" inherit_id="web.layout">
+            <xpath expr="//head" position="inside">
+                <t t-if="request.env.user.has_group('viseo_pos.group_rma_vehicle_mecano')">
+                    <script type="text/javascript">
+                        console.log("Mecano present");
+                        window.is_mecano = true;
+                    </script>
+                </t>
+            </xpath>
         </template>
 
     </data>

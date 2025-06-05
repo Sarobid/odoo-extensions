@@ -31,7 +31,7 @@ function getAllTaskVehicleRma(odooClient,rma_id,traiteData){
                 ,'service_product_list_id','hr_employee_id','user_id','date_start_service','date_end_service','state_follow','hr_employee_service_prod_list_id']
         ],
        }).then(data => {
-         console.log("data task vehicle rma",data)
+        //  console.log("data task vehicle rma",data)
         traiteData(data)
     }).catch(error => {
         console.error("Erreur chargement", error);
@@ -104,7 +104,7 @@ function w3_open() {
 
 function responsive_open(){
   const items = document.querySelectorAll('.vehicle-item');
-  console.log("responsive",items)
+//   console.log("responsive",items)
   if(window.innerWidth <= 900){
     items.forEach(el => {
         el.className = 'vehicle-item col-12 mb-3';

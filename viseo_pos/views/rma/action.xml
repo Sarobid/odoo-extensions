@@ -11,5 +11,9 @@
     <record id="action_client_list_vehicle_employee_id" model="ir.actions.client">
             <field name="name">list.vehicle.employee</field>
             <field name="tag">viseo_pos.vehicle.rma</field>
-        </record>
+    </record>
+    <record id="action_client_list_piece_mecano_id" model="ir.actions.client">
+            <field name="name">Liste des pieces mecano</field>
+            <field name="tag">viseo_pos.list.piece.mecano</field>
+    </record>
 </odoo>

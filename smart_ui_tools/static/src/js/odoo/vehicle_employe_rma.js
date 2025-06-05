@@ -19,7 +19,7 @@ odoo.define('smart_ui_tools.vehicle.rma', function (require) {
         },
         start: function () {
             const self = this;
-            console.log(self.dataVehicle)
+            // console.log(self.dataVehicle)
             const templateHtml = core.qweb.render('PageMainVehicleRma', {
                 // dataVehicle: self.dataVehicle
             });

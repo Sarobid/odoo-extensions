@@ -19,10 +19,11 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','web','fleet','viseo_repair_order'],
+    'depends': ['base','web','fleet','viseo_repair_order','stock','viseo_add_weight','bus'],
 
     # always loaded
     'data': [
+        'views/stock/view_stock_picking_form.xml',
         'views/rma/view_fleet_vehicle_log_service_form.xml',
         'views/rma/view_flee_vehicle_log_service_tree.xml',
         'views/rma/view_list_vehicule_employee.xml',
@@ -38,6 +39,8 @@
         'demo/demo.xml',
     ],
     'qweb':[
+        'static/src/xml/page_list_piece_mecano.xml',
+        'static/src/xml/page_main_liste_piece_mecano.xml',
         'static/src/xml/page_liste_vehicle_rma.xml',
         'static/src/xml/page_details_vehicle_rma.xml',
         'static/src/xml/page_list_tache_vehicle_rma.xml',

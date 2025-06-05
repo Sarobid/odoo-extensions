@@ -13,7 +13,7 @@
                             title="BLOCAGE"
                             bg_color="bg-danger"
                             attrs="{'invisible': [('nbr_service_product_block', '&lt;=', 0)]}"/>
-
+                            
             </xpath>
             <xpath expr="//field[@name='product_list_id']/tree/field[@name='technician']" position="after">
                 <field name="technician_display_status" widget="html" readonly="1"/>

@@ -5,7 +5,7 @@ const rma_follow_service = {
           method: methodeName,
           args: [hr_emp_service_prod_id]  
         }).then(data => {
-             console.log("follow_upgrade", data);
+            //  console.log("follow_upgrade", data);
             traite()
         }).catch(error => {
             console.error("Erreur chargement", error);

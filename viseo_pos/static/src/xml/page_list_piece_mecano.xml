@@ -1,0 +1,71 @@
+<templates>
+    <t t-name="PageListPieceMecano">
+            <div class="container-fluid px-4">
+                <div class="row g-4 oe_background_grey" style="max-height: 88vh; overflow-y: auto;">
+                    <t t-foreach="dataPieces" t-as="item">
+                    <div class="piece-item col-12 col-md-6 col-lg-4 mb-3">
+                        <div class="card h-100 shadow-sm border-0 piece-card" t-att-data-id="item.id" style="cursor:pointer; padding: 1.5rem;">
+
+                        <!-- Titre principal -->
+                        <div class="mb-3">
+                            <h5 class="mb-1">
+                            <strong style="font-weight:bold;color:rgb(0, 160, 157)">
+                                <t t-if="item.product_id"><t t-esc="item.product_id[1]" /></t>
+                                <t t-else="">Non défini</t>
+                            </strong>
+                            </h5>
+                            <hr class="my-2" />
+                        </div>
+
+                        <!-- Informations -->
+                        <div class="text-dark fs-6">
+                            <h4 class="mb-2 display-6"><strong>Quantité :</strong> 
+                                <span class="">
+                                    <t t-if="item.qty_done"><t t-esc="item.qty_done" /></t>
+                                    <t t-else=""></t>
+                                </span>
+                                <span class="">
+                                    <t t-if="item.product_uom_id"><t t-esc="item.product_uom_id[1]" /></t>
+                                    <t t-else=""></t>
+                                </span>
+                            </h4>
+                            <p class="mb-2"><strong>Date :</strong> 
+                                <span class="">
+                                    <t t-if="item.date_done"><t t-esc="item.date_done" /></t>
+                                    <t t-else=""></t>
+                                </span>
+                            </p>
+                            <button class="btn valid-button" t-att-data-id="item.id">Valider</button>
+                            <button class="btn denied-button" t-att-data-id="item.id">Refuser</button>
+                        </div>
+
+                        </div>
+                    </div>
+                    </t>
+                </div>
+            </div>
+        <!-- Style -->
+        <style>
+        .piece-card {
+            background-color: #fff;
+            border-radius: 12px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .piece-card:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            background-color: #fff;
+            transform: translateY(-4px);
+        }
+
+        .piece-card p {
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        h4 {
+            font-size: 1.25rem;
+        }
+        </style>
+    </t>
+</templates>

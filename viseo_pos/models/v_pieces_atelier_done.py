@@ -34,8 +34,9 @@ class v_pieces_atelier_done(models.Model):
             join stock_picking c on c.id=a.picking_sav 
                 and (c.state='done')
             join stock_move_line e on (e.picking_id = c.id and e.state_sav_mec !='valid' and e.state_sav_mec != 'denied')
+            left join stock_picking f on f.id= a.picking_return_mg
         where 
-			a.picking_return_mg is null 
+			(a.picking_return_mg is null or (a.picking_return_mg is not null and f.state!='done' and f.state!='partially_available')) 
 			and a.picking_return_sav is null 
             """
     

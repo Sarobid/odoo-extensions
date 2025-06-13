@@ -22,7 +22,7 @@ odoo.define('viseo_pos.event.channel', function (require) {
                 // } else {
                 //     console.log('[🛠 Autre notification]', { channel, message });
                 // }
-                eventChanelService.sav_mec_piece_refresh(session,channel, message);
+                // eventChanelService.sav_mec_piece_refresh(session,channel, message);
             });
 
             return notifs;

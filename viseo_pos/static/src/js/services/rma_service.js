@@ -21,7 +21,7 @@ function getAllVehicleRmaMecano(odooClient,uid,traiteData){
 }
 
 function getAllTaskVehicleRma(odooClient,rma_id,traiteData){
-    //  console.log("rma_id",rma_id)
+     console.log("rma_id",rma_id)
     return odooClient._rpc({
         model: 'v.service.product.list',
         method: 'search_read',
@@ -31,7 +31,7 @@ function getAllTaskVehicleRma(odooClient,rma_id,traiteData){
                 ,'service_product_list_id','hr_employee_id','user_id','date_start_service','date_end_service','state_follow','hr_employee_service_prod_list_id']
         ],
        }).then(data => {
-        //  console.log("data task vehicle rma",data)
+          console.log("data task vehicle rma",data)
         traiteData(data)
     }).catch(error => {
         console.error("Erreur chargement", error);

@@ -25,7 +25,7 @@ class v_service_product_list(models.Model):
     def _query(self):
         return """
         select 
-            row_number() over () as id,
+            row_number() over (order by a.id, c.id) as id,
 			a.id as service_product_list_id,
             a.name as namelibre,
             a.operation_done, --operation à effectuee

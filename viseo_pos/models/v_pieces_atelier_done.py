@@ -4,40 +4,39 @@ class v_pieces_atelier_done(models.Model):
     _name = "v.pieces.atelier.done"
     _description = "List of vehicle parts received by the after-sales service workshop to be validated by the mechanic"
     _auto = False
-    _order = "date_done desc"
 
-    id = fields.Integer(string="ID", readonly=True) #rma id
-    name2 = fields.Char(String="Réference de réparation") #reference de reparation
+    id = fields.Integer(string="ID", readonly=True)
+    num_picking = fields.Integer(string="Numéro de picking dans cette view", readonly=True)
+    name2 = fields.Char(String="Réference de réparation") 
     picking_sav = fields.Many2one("stock.picking", string="Picking SAV")
-    stock_move_line_id = fields.Many2one("stock.move.line", string="Ligne de mouvement de stock")
+    stock_move_id = fields.Many2one("stock.move", string="Mouvement de stock")
     product_id = fields.Many2one("product.product", string="Produit")
-    qty_done = fields.Integer(string="Quantité")
+    product_uom_qty = fields.Integer(string="Quantité")
     product_uom_id = fields.Many2one("uom.uom", string="Unité de mesure")
-    date_done = fields.Datetime(string="Date effective")
-
     def _query(self):
         return """
-        select
-            row_number() over () as id, 
-            b.id as rma_id,
-            b.name2,
-            a.picking_sav,
-            c.name as stock_picking_name,
-            c.state,
-            e.id as stock_move_line_id,
-            e.product_id,
-            e.qty_done,
-            e.product_uom_id,
-            c.date_done
-        from picking_product_line a
-            join fleet_vehicle_log_services b on b.id=a.repair_id and b.state_ro='diag' and b.is_transfert_done is false
-            join stock_picking c on c.id=a.picking_sav 
-                and (c.state='done')
-            join stock_move_line e on (e.picking_id = c.id and e.state_sav_mec !='valid' and e.state_sav_mec != 'denied')
-            left join stock_picking f on f.id= a.picking_return_mg
-        where 
-			(a.picking_return_mg is null or (a.picking_return_mg is not null and f.state!='done' and f.state!='partially_available')) 
-			and a.picking_return_sav is null 
+            SELECT
+                row_number() OVER (ORDER BY a.id, b.id, c.id, e.id) AS id, 
+                DENSE_RANK() OVER (ORDER BY c.id DESC) AS num_picking,
+                b.id AS rma_id,
+                b.name2,
+                a.picking_sav,
+                c.name AS stock_picking_name,
+                c.state,
+                e.id AS stock_move_id,
+                e.product_id,
+                e.product_uom_qty,
+                e.product_uom as product_uom_id
+            FROM picking_product_line a
+            JOIN fleet_vehicle_log_services b 
+                ON b.id = a.repair_id 
+                AND b.state_ro = 'diag' 
+                AND b.is_transfert_done IS FALSE
+            JOIN stock_picking c 
+                ON c.id = a.picking_sav 
+                AND c.state != 'done'
+            JOIN stock_move e 
+                ON e.picking_id = c.id
             """
     
     def init(self):

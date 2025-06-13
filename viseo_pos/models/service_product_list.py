@@ -27,7 +27,7 @@ class service_product_list(models.Model):
             all_intervall_travail = self.trier_par_diff_decroissant(all_intervall_travail)
             resultat = self.trouver_intersections(all_intervall_travail)
             tmps = sum(intervalle["diff"] for intervalle in resultat)
-            rec.time_past_display = self.tmp_to_format_horodata(tmps);
+            rec.time_past_display = self.tmp_to_format_horodata(tmps)
 
     def tmp_to_format_horodata(self,tmps):
         total_seconds = int(tmps)

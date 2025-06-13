@@ -23,13 +23,13 @@
 
     # always loaded
     'data': [
-        'views/stock/view_stock_picking_form.xml',
+        'security/groups_rma.xml',
+        # 'views/stock/view_stock_picking_form.xml',
         'views/rma/view_fleet_vehicle_log_service_form.xml',
         'views/rma/view_flee_vehicle_log_service_tree.xml',
         'views/rma/view_list_vehicule_employee.xml',
         'views/rma/action.xml',
         'views/menu_main.xml',
-        'security/groups_rma.xml',
         'security/ir.model.access.csv',
         # 'views/views.xml',
         'views/templates.xml',

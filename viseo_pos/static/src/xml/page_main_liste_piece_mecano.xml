@@ -1,8 +1,14 @@
 <templates>
     <t t-name="PageMainListePieceMecano">
         <div class="container-fluid p-0">
-            <div class="bg-white py-4 px-4 mb-4 rounded-bottom" >
-                <h2 class="mb-0 fw-bold" style="font-weight:bold">Mes pieces recu</h2>
+            <div class="row bg-white py-2 px-4 mb-4 rounded-bottom" >
+                <div class="col-6 text-left">
+                    <h2 class="mb-0 fw-bold" style="font-weight:bold" id="rma-id-piece"></h2>
+                    <h2 class="mb-0 fw-bold" style="font-weight:bold" id="stock-picking-id-piece"></h2>
+                </div>
+                <div class="col-6 text-right">
+                    <button class="btn valid-all-button">Valider</button>
+                </div>
             </div>
             <div class="alert alert-success" id="message-valid-success" role="alert" style="display:none;">
                 Validation pièces envoyées avec succès! 

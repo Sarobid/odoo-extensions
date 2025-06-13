@@ -9,6 +9,7 @@ odoo.define('viseo_pos.list.piece.mecano', function (require) {
         init : function (){
             this._super.apply(this, arguments);
             this.dataPieceMecano = [];
+            this.stock_piking_id = null;
         },
         willStart : function(){
             const self = this;
@@ -19,16 +20,33 @@ odoo.define('viseo_pos.list.piece.mecano', function (require) {
             const templateHtml = core.qweb.render('PageMainListePieceMecano', {});
             this.$el.html(templateHtml);
             self._show_listPieceMecano();
-            self._render_valid_button();
-            self._render_denied_button();
+            self._render_valid_all_button();
+            // self._render_valid_button();
+            // self._render_denied_button();
             return this._super.apply(this, arguments);
         },
         _show_listPieceMecano: function () {
             const self = this;
             pieceMecanoService.getAllListePieceMecano(self, function (data) {
                 self.dataPieceMecano = data;
+                if (self.dataPieceMecano.length > 0) {
+                    self.stock_piking_id = self.dataPieceMecano[0].picking_sav[0];
+                }
                 // console.log("Liste des pièces mécano", self.dataPieceMecano);
                 pieceMecanoService.insertListePieceMecanoInHtml(core.qweb, data);
+            });
+        },
+        _render_valid_all_button : function (){
+            const self = this;
+            this.$el.off('click', '.valid-all-button');
+            this.$el.on('click', '.valid-all-button', function (e) {
+                e.preventDefault();
+                    console.log("Validation de toutes les pièces mécano");
+                    pieceMecanoService.validationCompleteStockPicking(self, self.stock_piking_id,session, function (data) {
+                        pieceMecanoService.showMessageSucces('message-valid-all-success');
+                        self._show_listPieceMecano();
+                    }
+                );
             });
         },
         _render_denied_button : function (){

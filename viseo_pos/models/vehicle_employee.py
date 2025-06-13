@@ -25,7 +25,7 @@ class vehicle_employee(models.Model):
     def _query(self):
         return """
         select     
-            row_number() over () as id, 
+            row_number() over (order by a.id, d.hr_employee_id) as id, 
             a.name2,
             a.id as rma_id,
             f.vehicle_id,

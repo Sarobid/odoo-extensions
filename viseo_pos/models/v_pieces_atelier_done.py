@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields,api
 
 class v_pieces_atelier_done(models.Model):
     _name = "v.pieces.atelier.done"
@@ -13,6 +13,17 @@ class v_pieces_atelier_done(models.Model):
     product_id = fields.Many2one("product.product", string="Produit")
     product_uom_qty = fields.Integer(string="Quantité")
     product_uom_id = fields.Many2one("uom.uom", string="Unité de mesure")
+    state_sav_mec = fields.Char(string="État SAV Mécanicien")
+    reserved_availability = fields.Integer(string="Quantité disponible réservée", compute="_compute_reserved_availability", store=False)
+    
+    @api.depends('stock_move_id')
+    def _compute_reserved_availability(self):
+        for record in self:
+            if record.stock_move_id :
+                record.reserved_availability = record.stock_move_id.reserved_availability if record.stock_move_id.reserved_availability else 0.0
+            else:
+                record.reserved_availability = 0.0
+
     def _query(self):
         return """
             SELECT
@@ -26,7 +37,9 @@ class v_pieces_atelier_done(models.Model):
                 e.id AS stock_move_id,
                 e.product_id,
                 e.product_uom_qty,
-                e.product_uom as product_uom_id
+                e.product_uom as product_uom_id,
+                e.state_sav_mec,
+                0 AS reserved_availability                
             FROM picking_product_line a
             JOIN fleet_vehicle_log_services b 
                 ON b.id = a.repair_id 
@@ -34,7 +47,7 @@ class v_pieces_atelier_done(models.Model):
                 AND b.is_transfert_done IS FALSE
             JOIN stock_picking c 
                 ON c.id = a.picking_sav 
-                AND c.state != 'done'
+                AND c.state = 'assigned'
             JOIN stock_move e 
                 ON e.picking_id = c.id
             """

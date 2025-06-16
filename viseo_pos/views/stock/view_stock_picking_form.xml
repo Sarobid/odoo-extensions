@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="viseo_pos_stock_move_line_tree_inherit" model="ir.ui.view">
-        <field name="name">viseo_pos.stock.move.line.tree.inherit</field>
-        <field name="model">stock.move.line</field>
-        <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+    <record id="viseo_pos_stock_picking_inherit" model="ir.ui.view">
+        <field name="name">viseo_pos.stock.picking.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
          
-            <xpath expr="//field[@name='product_uom_id']" position="after">
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_uom']" position="after">
                 <field name="is_sav_mec" invisible="1"/>
                 <field name="state_sav_mec_display" widget="html" readonly="1" string="Validation Mecano"
                     attrs="{'invisible': [('is_sav_mec', '=', False)]}"/>
             </xpath>
+            
         </field>
     </record>
 

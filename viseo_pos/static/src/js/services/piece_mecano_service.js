@@ -5,9 +5,10 @@ const pieceMecanoService = {
             method: 'search_read',
             args: [
                 [['num_picking', '=', 1]],
-                ['id','num_picking', 'name2', 'picking_sav', 'stock_move_id','product_id','product_uom_qty','product_uom_id'],
+                ['id','num_picking', 'name2', 'picking_sav', 'stock_move_id','product_id','product_uom_qty','product_uom_id','state_sav_mec','reserved_availability'],
             ],
         }).then(data => {
+             console.log("Liste des pièces mécano", data);
             traiteData(pieceMecanoService.sortByDate(data));
         }).catch(error => {
             console.error("Erreur chargement", error);
@@ -15,24 +16,43 @@ const pieceMecanoService = {
     },
     getPiecesSelected : function (dataPiece,id){
         return dataPiece.filter(piece => piece.id === id);
+    },   
+    get_piece_reserverd_availability_is_valid : function (data) {
+        return data.filter(piece => piece.reserved_availability == piece.product_uom_qty);
     },
-    validPieceMecano: function (odooClient, stock_move_line_id,traiteData) {
+    update_quantity_done_stock_move : function (odooClient, piece,traiteData) {
+        let quantity_done = piece.product_uom_qty;
+        let stock_move_id = piece.stock_move_id[0];
+
         return odooClient._rpc({
-            model: 'stock.move.line.sav.mec',
-            method: 'validate_stock_move_line_mecano',
-            args: [stock_move_line_id],
+            model: 'stock.move',
+            method: 'write',
+            args: [[stock_move_id], {
+                quantity_done: quantity_done
+            }],
+        }).then(data => {
+            traiteData(data);
+        }).catch(error => {
+            console.error("Erreur validation", error);
+        });
+    },
+    validPieceMecanoStockMove: function (odooClient, stock_move_id,traiteData) {
+        return odooClient._rpc({
+            model: 'stock.move',
+            method: 'validation_stock_move_mecano',
+            args: [stock_move_id],
         }).then(data => {
             // console.log("Validation réussie", data);
             traiteData(data);
         }).catch(error => {
-            // console.error("Erreur validation", error);
+             console.error("Erreur validation", error);
         });
     },
-    deniedPieceMecano: function (odooClient, stock_move_line_id, traiteData) {
+    deniedPieceMecanoStockMove: function (odooClient, stock_move_id, traiteData) {
         return odooClient._rpc({
-            model: 'stock.move.line.sav.mec',
-            method: 'deny_stock_move_line_mecano',
-            args: [stock_move_line_id],
+            model: 'stock.move',
+            method: 'denied_stock_move_mecano',
+            args: [stock_move_id],
         }).then(data => {
             // console.log("Refus réussi", data);
             traiteData(data);
@@ -40,6 +60,7 @@ const pieceMecanoService = {
             console.error("Erreur refus", error);
         });
     },
+
     insertListePieceMecanoInHtml: function (qweb, data) {
         this.addTitlePiece(data)
         const html = qweb.render('PageListPieceMecano', { dataPieces: data });
@@ -97,6 +118,23 @@ const pieceMecanoService = {
             console.error("Erreur validation stock picking", error);
         });
     },
+    mettre_pas_relicas : function (odooClient,res_id,stock_piking, traiteData) {
+        return odooClient._rpc({
+            model: 'stock.backorder.confirmation',
+            method: 'process_cancel_backorder',
+            args: [[res_id]],
+            context: {
+                'active_id': stock_piking,
+                'active_ids': [stock_piking],
+                'active_model': 'stock.picking',
+            }
+        }).then(data => {
+            console.log("Mise à jour des réplicas réussie", data);
+            traiteData(data);
+        }).catch(error => {
+            console.error("Erreur mise à jour des réplicas", error);
+        });
+    },
     transfertImmediate: function (odooClient,res_id, stock_piking, traiteData) {
         return odooClient._rpc({
             model: 'stock.immediate.transfer',
@@ -114,18 +152,67 @@ const pieceMecanoService = {
             console.error("Erreur transfert immédiat", error);
         });
     },
-    validationCompleteStockPicking: function (odooClient, stock_piking,session, traiteData) {
+    validationCompleteStockPicking: function (odooClient,dataMecano, stock_piking,session, traiteData) {
         console.log("session", session);
-        this.verificationDisponibilite(odooClient, stock_piking,session.company_id, function (data) {
+        pieceMecanoService.validationDesPiecesMecanoValid(odooClient,dataMecano,(rep)=>{
             pieceMecanoService.validationStockPicking(odooClient, stock_piking, function (data) {
                 if (data && data['res_model'] && data['res_model'] === 'stock.immediate.transfer') {
                     pieceMecanoService.transfertImmediate(odooClient,data['res_id'], stock_piking, function (data) {
                         traiteData(data);
                     });
                 }else {
-                    traiteData(data);
+                    if (data && data['res_model'] && data['res_model'] === 'stock.backorder.confirmation') {
+                        pieceMecanoService.mettre_pas_relicas(odooClient,data['res_id'],stock_piking, function (data) {
+                            traiteData(data);
+                        });
+                    }else {
+                        traiteData(data);
+                    }
                 }
             });
         })
+    },
+    validationDesPiecesMecanoValid: function (odooClient,data,traiteData) {
+        let dataTRaite =  data.filter(piece => piece.state_sav_mec === 'valid');
+        return new Promise((resolve, reject) => {
+            let promises = []
+            for (let i = 0; i < dataTRaite.length; i++) {
+                const piece = dataTRaite[i];
+                promises.push(new Promise((resolve, reject) => {
+                    this.update_quantity_done_stock_move(odooClient,piece,(data)=>{
+                        console.log("update_quantity_done_stock_move")
+                        resolve()
+                    })
+                }));
+            }
+            Promise.all(promises)
+                .then(() => {
+                    console.log("Toutes les pièces validées avec succès");
+                    traiteData(dataTRaite);
+                    resolve(dataTRaite);
+                })
+                .catch(error => {
+                    console.error("Erreur lors de la validation des pièces", error);
+                    reject(error);
+                });
+        })
+    },
+    is_all_piece_denied: function (data) {
+        return data.every(piece => piece.state_sav_mec === 'denied');
+    },
+    is_all_piece_checked: function (data) {
+        return data.every(piece => piece.state_sav_mec === 'valid' || piece.state_sav_mec === 'denied');
+    },
+    annule_transfert: function (odooClient, stock_piking, traiteData) {
+        return odooClient._rpc({
+            model: 'stock.picking',
+            method: 'action_cancel',
+            args: [[stock_piking]],
+        }).then(data => {
+            console.log("Annulation du transfert réussie", data);
+            traiteData(data);
+        }).catch(error => {
+            console.error("Erreur annulation du transfert", error);
+        });
     }
 }

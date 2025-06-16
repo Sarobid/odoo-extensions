@@ -29,8 +29,20 @@
                                         <t t-else=""></t>
                                     </span>
                                 </h7>
-                                <!-- <button class="btn valid-button" t-att-data-id="item.id">Recu</button>
-                                <button class="btn denied-button" t-att-data-id="item.id">Refuser</button> -->
+                                <t t-if="item.state_sav_mec == 'valid'">
+                                    <p class="mb-2"><strong>Statut :</strong> 
+                                        <span class="text-success">Validé</span>
+                                    </p>
+                                </t>
+                                <t t-elif="item.state_sav_mec == 'denied'">
+                                    <p class="mb-2"><strong>Statut :</strong> 
+                                        <span class="text-danger">Refusé</span>
+                                    </p>
+                                </t>
+                                <t t-else="">
+                                    <button class="btn valid-button" t-att-data-id="item.id">Recu</button>
+                                    <button class="btn denied-button" t-att-data-id="item.id">Refuser</button>
+                                </t>
                             </div>
                         </div>
                     </div>

@@ -21,8 +21,8 @@ odoo.define('viseo_pos.list.piece.mecano', function (require) {
             this.$el.html(templateHtml);
             self._show_listPieceMecano();
             self._render_valid_all_button();
-            // self._render_valid_button();
-            // self._render_denied_button();
+            self._render_valid_button();
+            self._render_denied_button();
             return this._super.apply(this, arguments);
         },
         _show_listPieceMecano: function () {
@@ -31,42 +31,74 @@ odoo.define('viseo_pos.list.piece.mecano', function (require) {
                 self.dataPieceMecano = data;
                 if (self.dataPieceMecano.length > 0) {
                     self.stock_piking_id = self.dataPieceMecano[0].picking_sav[0];
+                    pieceMecanoService.verificationDisponibilite(self,self.stock_piking_id,session.company_id, function (data) {
+                        pieceMecanoService.getAllListePieceMecano(self, function (data) {
+                            self.dataPieceMecano = pieceMecanoService.get_piece_reserverd_availability_is_valid(data);
+                            console.log("Liste des pièces mécano réservées", self.dataPieceMecano);
+                            pieceMecanoService.insertListePieceMecanoInHtml(core.qweb,self.dataPieceMecano);
+                            self._render_is_click_button_Valid_all();
+                        });
+                    });
                 }
                 // console.log("Liste des pièces mécano", self.dataPieceMecano);
-                pieceMecanoService.insertListePieceMecanoInHtml(core.qweb, data);
+                
             });
+        },
+        _render_is_click_button_Valid_all : function (){
+            const self = this;
+            // this.$el.off('click', '.valid-all-button');
+            if(pieceMecanoService.is_all_piece_checked(self.dataPieceMecano)) {
+                console.log("Toute les pièces sont checkées");
+              this.$el.find('.valid-all-button').prop('disabled', false);
+            } else {
+                console.log("Il reste des pièces à valider");
+                this.$el.find('.valid-all-button').prop('disabled', true);
+                
+            }
         },
         _render_valid_all_button : function (){
             const self = this;
             this.$el.off('click', '.valid-all-button');
             this.$el.on('click', '.valid-all-button', function (e) {
                 e.preventDefault();
-                    console.log("Validation de toutes les pièces mécano");
-                    pieceMecanoService.validationCompleteStockPicking(self, self.stock_piking_id,session, function (data) {
+                if (!pieceMecanoService.is_all_piece_denied(self.dataPieceMecano)) {
+                    pieceMecanoService.validationCompleteStockPicking(self,self.dataPieceMecano, self.stock_piking_id,session, function (data) {
                         pieceMecanoService.showMessageSucces('message-valid-all-success');
                         self._show_listPieceMecano();
-                    }
-                );
+                    });    
+                }else {
+                    pieceMecanoService.annule_transfert(self, self.stock_piking_id, function (data) {
+                        pieceMecanoService.showMessageSucces('message-valid-all-denied');
+                        self._show_listPieceMecano();
+                    });
+                }                    
             });
         },
         _render_denied_button : function (){
             const self = this;
             this._render_click_button_check_piece(function (piece) {
-                pieceMecanoService.deniedPieceMecano(self, piece.stock_move_line_id[0], function (data) {
+                pieceMecanoService.deniedPieceMecanoStockMove(self, piece.stock_move_id[0], function (data) {
                     // console.log("Refus réussi", data);
-                    pieceMecanoService.showMessageSucces('message-denied-success');
+                    // pieceMecanoService.showMessageSucces('message-denied-success');
                     // self._show_listPieceMecano();
+                    self._show_listPieceMecano()
                 });
             }, 'denied-button');
         },
         _render_valid_button : function (){
             const self = this;
             this._render_click_button_check_piece(function (piece) {
-                pieceMecanoService.validPieceMecano(self, piece.stock_move_line_id[0], function (data) {
+                console.log("Validation de la pièce mécano", piece);
+                // pieceMecanoService.update_quantity_done_stock_move(self,piece, function (data) {
+                // console.log("Mise à jour de la quantité effectuée", data);
+                pieceMecanoService.validPieceMecanoStockMove(self, piece.stock_move_id[0], function (data) {
                     // console.log("Validation réussie", data);
-                    pieceMecanoService.showMessageSucces('message-valid-success');
+                    // pieceMecanoService.showMessageSucces('message-valid-success');
                     // self._show_listPieceMecano();
+                    self._show_listPieceMecano()
                 });
+                // });
+
             }, 'valid-button');
         },
         _render_click_button_check_piece : function (functionTraite, buttonClass){

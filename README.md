@@ -8,23 +8,12 @@ The goal of this repository is to centralize all my custom developments for Odoo
 
 All modules included here are designed to be easily installed and integrated into any Odoo instance.
 
-## 📦 Included Modules
-
-- smart_ui_tools
-
 ## 🛠️ Technologies Used
 
 - Odoo 
 - Python 3.10+
 - JavaScript
 - XML (QWeb Templates)
-
-## 🛣️ Roadmap
-
-- [x] Initialize repository and add basic README
-- [ ] Create first custom module (`smart_ui_tools`)
-- [ ] Add new modules progressively
-- [ ] Document each module individually
 
 ## 📋 How to Use
 

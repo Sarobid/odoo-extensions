@@ -15,6 +15,7 @@
               <script type="text/javascript" src="/viseo_pos/static/src/js/services/event_channel_service.js"/>
               <script type="text/javascript" src="/viseo_pos/static/src/js/odoo/event_channel.js"/>
              <script type="text/javascript" src="/viseo_pos/static/src/js/odoo/hide_column_list_renderer.js"/>
+             <script type="text/javascript" src="/viseo_pos/static/src/js/odoo/add_multi_company.js"/>
              
              </xpath>
         </template>

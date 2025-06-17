@@ -1,5 +1,6 @@
 <templates>
   <t t-name="PageMainVehicleRma">
+  <div class="loader_mecano d-none">loading</div>
     <div class="container-fluid">
       <div id="main-vehicle"></div>
 

@@ -5,7 +5,7 @@ const pieceMecanoService = {
             method: 'search_read',
             args: [
                 [['num_picking', '=', 1]],
-                ['id','num_picking', 'name2', 'picking_sav', 'stock_move_id','product_id','product_uom_qty','product_uom_id','state_sav_mec','reserved_availability'],
+                ['id','num_picking', 'name2', 'picking_sav', 'stock_move_id','product_id','product_uom_qty','product_uom_id','state_sav_mec','location_id','location_dest_id','picking_magasinier','picking_product_line_id','reserved_availability'],
             ],
         }).then(data => {
              console.log("Liste des pièces mécano", data);
@@ -18,7 +18,8 @@ const pieceMecanoService = {
         return dataPiece.filter(piece => piece.id === id);
     },   
     get_piece_reserverd_availability_is_valid : function (data) {
-        return data.filter(piece => piece.reserved_availability == piece.product_uom_qty);
+        console.log("get_piece_reserverd_availability_is_valid", data);
+        return data.filter(piece => piece.reserved_availability == piece.product_uom_qty && piece.product_uom_qty > 0);
     },
     update_quantity_done_stock_move : function (odooClient, piece,traiteData) {
         let quantity_done = piece.product_uom_qty;
@@ -46,6 +47,17 @@ const pieceMecanoService = {
             traiteData(data);
         }).catch(error => {
              console.error("Erreur validation", error);
+        });
+    },cancelPieceMecanoStockMove: function (odooClient, stock_move_id,traiteData) {
+        return odooClient._rpc({
+            model: 'stock.move',
+            method: 'cancel_stock_move_mecano',
+            args: [stock_move_id],
+        }).then(data => {
+            // console.log("Validation réussie", data);
+            traiteData(data);
+        }).catch(error => {
+             console.error("Erreur annulation", error);
         });
     },
     deniedPieceMecanoStockMove: function (odooClient, stock_move_id, traiteData) {
@@ -214,5 +226,116 @@ const pieceMecanoService = {
         }).catch(error => {
             console.error("Erreur annulation du transfert", error);
         });
+    },
+    retourner_all_pieces_magasinier : function (odooClient,picking_magasinier,dataMecano,traiteData){
+        let array_piece_refuser = dataMecano.filter(piece => piece.state_sav_mec === 'denied');
+        this.getAllPieceInMagasin(odooClient,picking_magasinier, (data) => {
+            let dataResult = []
+            const picking_product_line_id = dataMecano[0].picking_product_line_id[0];
+            for (let i = 0; i < data.length; i++) {
+                const piece = data[i];
+                for (let j = 0; j < array_piece_refuser.length; j++) {
+                    const piece_refuser = array_piece_refuser[j];
+                    if (piece.product_id[0] === piece_refuser.product_id[0]) {
+                        console.log("Retourner pièce magasinier", piece, piece_refuser);
+                        dataResult.push(piece)
+                        break;
+                    }
+                }
+            }
+            if (dataResult.length > 0) {
+                this.create_return_piece_magasinier(odooClient,picking_product_line_id, dataResult[0], dataResult, (data) => {
+                    traiteData(data);
+                });   
+            }else {
+                console.log("Aucune pièce à retourner au magasinier");
+                traiteData({ message: "Aucune pièce à retourner au magasinier" });
+            }
+        })
+    },
+    create_return_piece_magasinier: function (odooClient, picking_product_line_id,picking_magasinier,array_produit_a_retourne, traiteData) {
+        const product_return_moves = array_produit_a_retourne.map(prod => {
+            return [0, 0, {
+                product_id: prod.product_id[0],
+                quantity: prod.quantity_done,
+                move_id: prod.stock_move_id[0],
+                to_refund: true
+            }];
+        });
+        const picking_id = picking_magasinier.picking_magasinier[0];
+        console.log("Création de retour de pièce magasinier", picking_id, product_return_moves);
+        return odooClient._rpc({
+            model: "stock.return.picking",
+            method: "create",
+            args: [{
+                picking_id: picking_id,
+                product_return_moves: product_return_moves,
+                parent_location_id: picking_magasinier.location_dest_id[0],
+                original_location_id: picking_magasinier.location_id[0],
+                location_id: picking_magasinier.location_id[0],
+            }],
+            context: {
+                active_model: "stock.picking",
+                active_id: picking_id,
+                active_ids: [picking_id]
+            }
+        }).then(data => {
+            console.log("Mise à jour des pièces en magasinier réussie", data);
+                pieceMecanoService.validation_create_return_piece_magasinier(odooClient, data, picking_magasinier, (data) => {
+                    console.log("picking_product_line_id", picking_product_line_id);
+                    pieceMecanoService.update_picking_return_mg_to_product_return(odooClient,picking_product_line_id,data['res_id'], (data) => {
+                         traiteData(data);
+                    });
+                });
+        }).catch(error => {
+            console.error("Erreur mise à jour des pièces en magasinier", error);
+        });
+    },
+    validation_create_return_piece_magasinier: function (odooClient, result_id,picking_magasinier, traiteData) {
+        return odooClient._rpc({
+            model: "stock.return.picking",
+            method: "create_returns",
+            args: [result_id],
+            context: {
+                active_model: "stock.picking",
+                active_id: picking_magasinier.picking_magasinier[0],
+                active_ids: [picking_magasinier.picking_magasinier[0]]
+            }
+        }).then(data => {
+            console.log("Validation de la création de retour de pièce magasinier réussie", data);
+            traiteData(data);
+        }).catch(error => {
+            console.error("Erreur validation création retour pièce magasinier", error);
+        });
+    },
+    update_picking_return_mg_to_product_return: function (odooClient, picking_product_line_id, picking_return_id, traiteData) {
+        console.log("Mise à jour de picking_product_line_id", picking_product_line_id, "avec picking_return_id", picking_return_id);
+        return odooClient._rpc({
+            model: 'picking.product.line',
+            method: 'update_picking_return_mg_to_product_return',
+            args: [picking_product_line_id, picking_return_id], // passer les arguments ici
+        }).then(data => {
+            console.log("Mise à jour de picking_product_line_id réussie", data);
+            traiteData(data);
+        }).catch(error => {
+
+            console.error("Erreur Mise à jour de picking_product_line_id:", error);
+        });
+    },
+    getAllPieceInMagasin: function (odooClient,picking_magasinier, traiteData) {
+        return odooClient._rpc({
+            model: 'v.pieces.in.magasinier',
+            method: 'search_read',
+            args: [
+                [['picking_magasinier', '=', picking_magasinier]],
+                ['id', 'name2', 'picking_sav', 'stock_move_id','product_id','product_uom_qty','product_uom_id','state_sav_mec','location_id','location_dest_id','picking_magasinier','quantity_done'],
+            ],
+        }).then(data => {
+            console.log("Liste des pièces en magasin", data);
+            traiteData(pieceMecanoService.sortByDate(data));
+        }).catch(error => {
+            console.error("Erreur chargement des pièces en magasin", error);
+        });
     }
+
 }

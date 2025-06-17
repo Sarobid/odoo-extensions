@@ -46,16 +46,17 @@ class res_users(models.Model):
                         lambda menu: menu.id not in [menu_my_vehicles.id, menu_my_pieces.id]
                     )
                     user.hide_menu_access_ids = [(6, 0, menus_to_hide.ids)]
+                    self._assigned_multi_company_mecano()            
                 else:  # Utilisateur retiré du groupe
                     user.hide_menu_access_ids = [(5,)]
 
 
     def _assigned_multi_company_mecano(self):
         companies = self.env['res.company'].search([
-            ('name', 'in', ['Ocean Trade', 'Continental Auto'])
-        ])        
+                ('name', 'in', ['Ocean Trade', 'Continental Auto'])
+            ])
         if companies:
-            # Assigne les sociétés trouvées à l'utilisateur
-            self.write({
-                'company_ids': [(6, 0, companies.ids)]
-            })
+            for user in self:
+                user.write({
+                    'company_ids': [(4, cid) for cid in companies.ids if cid not in user.company_ids.ids]
+                })

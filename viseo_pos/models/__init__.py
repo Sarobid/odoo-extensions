@@ -9,3 +9,5 @@ from . import stock_move
 from . import vehicle_employee
 from . import v_service_product_list
 from . import v_pieces_atelier_done
+from . import v_pieces_in_magasinier
+from .import picking_product_line

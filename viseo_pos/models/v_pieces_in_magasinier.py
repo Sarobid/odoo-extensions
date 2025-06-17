@@ -1,12 +1,11 @@
 from odoo import models, fields,api
 
-class v_pieces_atelier_done(models.Model):
-    _name = "v.pieces.atelier.done"
-    _description = "List of vehicle parts received by the after-sales service workshop to be validated by the mechanic"
+class v_pieces_in_magasinier(models.Model):
+    _name = "v.pieces.in.magasinier"
+    _description = "Liste des pièces reçues par le magasinier pour l'atelier SAV"
     _auto = False
 
     id = fields.Integer(string="ID", readonly=True)
-    num_picking = fields.Integer(string="Numéro de picking dans cette view", readonly=True)
     name2 = fields.Char(String="Réference de réparation") 
     picking_sav = fields.Many2one("stock.picking", string="Picking SAV")
     stock_move_id = fields.Many2one("stock.move", string="Mouvement de stock")
@@ -17,22 +16,20 @@ class v_pieces_atelier_done(models.Model):
     location_id = fields.Many2one("stock.location", string="Emplacement d'origine")
     location_dest_id = fields.Many2one("stock.location", string="Emplacement de destination")
     picking_magasinier = fields.Many2one("stock.picking", string="Picking Magasinier")
-    picking_product_line_id = fields.Many2one("picking.product.line", string="Ligne de picking")
-    reserved_availability = fields.Integer(string="Quantité disponible réservée", compute="_compute_reserved_availability", store=False)
+    quantity_done = fields.Integer(string="Quantité Fait", compute="_compute_quantity_done", store=False)
     
     @api.depends('stock_move_id')
-    def _compute_reserved_availability(self):
+    def _compute_quantity_done(self):
         for record in self:
             if record.stock_move_id :
-                record.reserved_availability = record.stock_move_id.reserved_availability if record.stock_move_id.reserved_availability else 0.0
+                record.quantity_done = record.stock_move_id.quantity_done if record.stock_move_id.quantity_done else 0.0
             else:
-                record.reserved_availability = 0.0
+                record.quantity_done = 0.0
 
     def _query(self):
         return """
             SELECT
                 row_number() OVER (ORDER BY a.id, b.id, c.id, e.id) AS id, 
-                DENSE_RANK() OVER (ORDER BY c.id DESC) AS num_picking,
                 b.id AS rma_id,
                 b.name2,
                 a.picking_sav,
@@ -45,17 +42,13 @@ class v_pieces_atelier_done(models.Model):
                 e.state_sav_mec,
                 c.location_id as location_id,
                 c.location_dest_id as location_dest_id,
-                a.picking_magasinier AS picking_magasinier,
-                a.id AS picking_product_line_id,
-                0 AS reserved_availability            
+                a.picking_magasinier AS picking_magasinier             
             FROM picking_product_line a
             JOIN fleet_vehicle_log_services b 
                 ON b.id = a.repair_id 
-                AND b.state_ro = 'diag' 
-                AND b.is_transfert_done IS FALSE
             JOIN stock_picking c 
-                ON c.id = a.picking_sav 
-                AND c.state = 'assigned'
+                ON c.id = a.picking_magasinier 
+                AND c.state = 'done'
             JOIN stock_move e 
                 ON e.picking_id = c.id
             """

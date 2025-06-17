@@ -3,11 +3,31 @@ from datetime import datetime
 class stock_picking(models.Model):
     _inherit = 'stock.picking'
     
+    picking_product_line_magasinier_id = fields.One2many(
+        'picking.product.line',
+        inverse_name='picking_magasinier',
+        string="Lignes de picking Magasinier",
+    )
     picking_product_line_sav_id = fields.One2many(
         'picking.product.line',
         inverse_name='picking_sav',
-        string="Lignes de picking SAV",
+        string="Lignes de picking Magasinier",
     )
+
+    def button_validate(self):
+        res = super(stock_picking, self).button_validate()
+        if self.picking_product_line_magasinier_id:
+            self.send_message_sav_mec_piece_refresh()
+        return res
+
+    def send_message_sav_mec_piece_refresh(self):
+        print("stock_picking send_message_sav_mec_piece_refresh")
+        id = self.env.ref('viseo_pos.action_client_list_piece_mecano_id').id
+        print("stock_picking send_message_sav_mec_piece_refresh id", id)
+        self.env['bus.bus'].sendone('sav_mec_piece_refresh', {
+            'type': 'notification',
+            'message': str(id),
+        })
 
 
 
@@ -68,7 +88,19 @@ class stock_move(models.Model):
             return {"status": "200", "message": "Stock move validated successfully."}
         else:
             return {"status": "404", "message": "Stock move not found."}
-        
+    @api.model
+    def cancel_stock_move_mecano(self, stock_move_id):
+        print("cancel_stock_move_mecano", stock_move_id)
+        stock_move = self.sudo().search(
+            [("id", "=", stock_move_id)]
+        )
+        print("stock_move", stock_move.id)
+        if stock_move:
+            print("stock_move found", stock_move)
+            stock_move.update_state_sav_mec(None)
+            return {"status": "200", "message": "Stock move cancelled successfully."}
+        else:
+            return {"status": "404", "message": "Stock move not found."}
     @api.model
     def denied_stock_move_mecano(self, stock_move_id):
         print("denied_stock_move_mecano", stock_move_id)

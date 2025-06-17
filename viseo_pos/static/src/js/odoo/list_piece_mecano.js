@@ -10,6 +10,7 @@ odoo.define('viseo_pos.list.piece.mecano', function (require) {
             this._super.apply(this, arguments);
             this.dataPieceMecano = [];
             this.stock_piking_id = null;
+            this.picking_magasinier_id = null;
         },
         willStart : function(){
             const self = this;
@@ -23,6 +24,7 @@ odoo.define('viseo_pos.list.piece.mecano', function (require) {
             self._render_valid_all_button();
             self._render_valid_button();
             self._render_denied_button();
+            self._render_cancel_button();
             return this._super.apply(this, arguments);
         },
         _show_listPieceMecano: function () {
@@ -31,6 +33,7 @@ odoo.define('viseo_pos.list.piece.mecano', function (require) {
                 self.dataPieceMecano = data;
                 if (self.dataPieceMecano.length > 0) {
                     self.stock_piking_id = self.dataPieceMecano[0].picking_sav[0];
+                    self.picking_magasinier_id = self.dataPieceMecano[0].picking_magasinier[0];
                     pieceMecanoService.verificationDisponibilite(self,self.stock_piking_id,session.company_id, function (data) {
                         pieceMecanoService.getAllListePieceMecano(self, function (data) {
                             self.dataPieceMecano = pieceMecanoService.get_piece_reserverd_availability_is_valid(data);
@@ -61,17 +64,24 @@ odoo.define('viseo_pos.list.piece.mecano', function (require) {
             this.$el.off('click', '.valid-all-button');
             this.$el.on('click', '.valid-all-button', function (e) {
                 e.preventDefault();
+                self.showLoader();
                 if (!pieceMecanoService.is_all_piece_denied(self.dataPieceMecano)) {
                     pieceMecanoService.validationCompleteStockPicking(self,self.dataPieceMecano, self.stock_piking_id,session, function (data) {
-                        pieceMecanoService.showMessageSucces('message-valid-all-success');
-                        self._show_listPieceMecano();
+                        self._return_refuse_piece_to_original_dest();
                     });    
                 }else {
                     pieceMecanoService.annule_transfert(self, self.stock_piking_id, function (data) {
-                        pieceMecanoService.showMessageSucces('message-valid-all-denied');
-                        self._show_listPieceMecano();
+                        self._return_refuse_piece_to_original_dest();
                     });
                 }                    
+            });
+        },
+        _return_refuse_piece_to_original_dest: function () {
+            const self = this;
+            pieceMecanoService.retourner_all_pieces_magasinier(self,self.picking_magasinier_id,self.dataPieceMecano, function (data) {
+                self.hideLoader();
+                self.show_message_valid_success();
+                self._show_listPieceMecano();
             });
         },
         _render_denied_button : function (){
@@ -84,6 +94,16 @@ odoo.define('viseo_pos.list.piece.mecano', function (require) {
                     self._show_listPieceMecano()
                 });
             }, 'denied-button');
+        },_render_cancel_button : function (){
+            const self = this;
+            this._render_click_button_check_piece(function (piece) {
+                pieceMecanoService.cancelPieceMecanoStockMove(self, piece.stock_move_id[0], function (data) {
+                    // console.log("Refus réussi", data);
+                    // pieceMecanoService.showMessageSucces('message-denied-success');
+                    // self._show_listPieceMecano();
+                    self._show_listPieceMecano()
+                });
+            }, 'cancel-button');
         },
         _render_valid_button : function (){
             const self = this;
@@ -115,6 +135,21 @@ odoo.define('viseo_pos.list.piece.mecano', function (require) {
                     functionTraite(pieces[0]);
                 }
             });
+        },
+        showLoader: function () {
+            const self = this;
+            self.$el.find('.loader_mecano').removeClass('d-none');
+        },
+        hideLoader: function () {
+            const self = this;
+            self.$el.find('.loader_mecano').addClass('d-none');
+        },
+        show_message_valid_success: function () {
+            $('.message-valid-success-mecano').fadeIn();
+            setTimeout(function () {
+                $('.message-valid-success-mecano').fadeOut();
+            }, 2000);  // Se masque automatiquement après 4 secondes
+
         }
     });
     core.action_registry.add('viseo_pos.list.piece.mecano', HomePage);

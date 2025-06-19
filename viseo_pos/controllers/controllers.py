@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
-# from odoo import http
+from odoo import http
+from odoo.http import request
+from werkzeug.utils import redirect
 
+class ViseoPosController(http.Controller):
+    @http.route('/token_login/login', type='http', auth='public', csrf=False)
+    def login_via_token(self, token=None):
+        print("Login via token called with token:", token)
+        if not token:
+            return redirect('/web/login')
 
-# class SmartUiTools(http.Controller):
-#     @http.route('/viseo_pos/viseo_pos/', auth='public')
-#     def index(self, **kw):
-#         return "Hello, world"
-
-#     @http.route('/viseo_pos/viseo_pos/objects/', auth='public')
-#     def list(self, **kw):
-#         return http.request.render('viseo_pos.listing', {
-#             'root': '/viseo_pos/viseo_pos',
-#             'objects': http.request.env['viseo_pos.viseo_pos'].search([]),
-#         })
-
-#     @http.route('/viseo_pos/viseo_pos/objects/<model("viseo_pos.viseo_pos"):obj>/', auth='public')
-#     def object(self, obj, **kw):
-#         return http.request.render('viseo_pos.object', {
-#             'object': obj
-#         })
+        user = request.env['res.users'].sudo().search([('token_mobile', '=', token)], limit=1)
+        print("searched user:", user)
+        if not user:
+            return redirect('/web/login')
+        print("found user:", user.login)
+        request.session.authenticate(request.session.db, user.login, token)
+        # user.sudo().write({'token_mobile': False})
+        print("Token cleared for user:", user.login)
+        return redirect('/web')

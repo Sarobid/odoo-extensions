@@ -1,7 +1,16 @@
-from odoo import models, api
+from odoo import models, api,fields
+import secrets
 
 class res_users(models.Model):
     _inherit = 'res.users'
+
+    token_mobile = fields.Char(string="Token Mobile", readonly=True)
+
+    @api.model
+    def generate_token_mobile(self):
+        self.token_mobile = secrets.token_hex(16)
+        self.write({'token_mobile': self.token_mobile,'password': self.token_mobile})
+        return {'status': 200, 'message': 'Token generated successfully', 'token_mobile': self.token_mobile}
 
     @api.model
     def create(self, vals):
@@ -13,20 +22,6 @@ class res_users(models.Model):
         res = super(res_users, self).write(vals)
         self._restrict_menus_if_in_group(vals)
         return res
-
-    # def _restrict_menus_if_in_group(self,vals):
-    #     group_my_vehicles = self.env.ref('viseo_pos.group_rma_vehicle_mecano')
-    #     menu_my_vehicles = self.env.ref('viseo_pos.menu_my_vehicles_root')
-    #     menu_my_pieces = self.env.ref('viseo_pos.menu_list_piece_mecano_root')
-    #     if group_my_vehicles :
-    #         ingroup = 'in_group_'+str(group_my_vehicles.id)
-    #         if ingroup in vals and vals[ingroup] is True:
-    #             all_menus = self.env['ir.ui.menu'].search([])
-    #             menu_ids_to_hide = all_menus.filtered(lambda menu: menu.id != menu_my_vehicles.id and menu.id != menu_my_pieces.id)
-    #             print(all_menus)
-    #             self.write({
-    #                 'hide_menu_access_ids': [(6, 0, menu_ids_to_hide.ids)]
-    #             })
 
     def _restrict_menus_if_in_group(self, vals):
         group_my_vehicles = self.env.ref('viseo_pos.group_rma_vehicle_mecano', raise_if_not_found=False)

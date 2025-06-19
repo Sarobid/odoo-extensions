@@ -13,6 +13,7 @@ class hr_employee_service_product_list_rel(models.Model):
     @api.model
     def commencer(self, service_id):
         print("commencer", service_id)
+        print("self.env.user.employee_id.id", self.env.user.employee_id.id)
         if service_id:
             service_product_list = self.env['hr_employee.service.product.list.rel'].search([
                 ('service_product_list_id', '=', service_id),

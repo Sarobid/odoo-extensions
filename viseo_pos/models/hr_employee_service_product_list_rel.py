@@ -71,6 +71,8 @@ class hr_employee_service_product_list_rel(models.Model):
 
     @api.model
     def _get_service_product_list_hr(self,service_id):
+        print("Recherche de la liste des produits de service pour l'employé")
+        print("self.env.user.employee_id.id", self.env.user.employee_id.id)
         return self.env['hr_employee.service.product.list.rel'].search([
             ('service_product_list_id', '=', service_id),
             ('hr_employee_id', '=', self.env.user.employee_id.id)

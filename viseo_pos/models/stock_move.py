@@ -131,7 +131,19 @@ class stock_move(models.Model):
     
     def _create_state_sav_mec_display(self, state):
         state_label = dict(self._fields['state_sav_mec'].selection).get(state, 'Validation en attente')
+        usename = ""
         color = self._get_color_state(state)
+        if state is not None:
+            usename = ' par '+self.env.user.name
+            usename = (f"    </br><span style='"
+            f"        background-color: {color};"
+            f"        color: white;"
+            f"        padding: 2px 6px;"
+            f"        border-radius: 6px;"
+            f"        font-size: 12px;"
+            f"        margin-right: 6px;'>"
+            f"      {usename}</span>"
+            )
         html = (
             f"<div style='line-height: 1.6;'>"
             f"  <div style='margin-bottom: 4px;'>"
@@ -142,7 +154,7 @@ class stock_move(models.Model):
             f"        border-radius: 6px;"
             f"        font-size: 12px;"
             f"        margin-right: 6px;'>"
-            f"      {state_label}</span>"
+            f"      {state_label}</span>{usename}"
             f"  </div>"
             f"</div>"
         )

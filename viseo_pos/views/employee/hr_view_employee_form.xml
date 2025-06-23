@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <button name="generate_code_pin" type="object" class="oe_stat_button"
-                         string="Générer code Pin"/>
+                         string="Generer code Pin" groups="viseo_pos.group_generate_code_pin"/>
             </xpath>
             <xpath expr="//sheet/group/group[1]/field[@name='mobile_phone']" position="before">
                 <field name="code_pin" readonly="1"/>

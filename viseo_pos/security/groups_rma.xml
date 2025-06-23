@@ -8,5 +8,9 @@
         <field name="name">Bot admin mobile viseo pos</field>
     </record>
 
+    <record id="group_generate_code_pin" model="res.groups">
+        <field name="name">Group generate code pin employee</field>
+    </record>
+
 
 </odoo>

@@ -7,13 +7,13 @@ class v_access_users_mobile(models.Model):
 
     id = fields.Integer(string="ID", readonly=True)
     user_id = fields.Many2one("res.users", string="Utilisateur", readonly=True)
-    matricule = fields.Char(string="Matricule", readonly=True)
+    code_pin = fields.Char(string="code_pin", readonly=True)
     login = fields.Char(string="Login", readonly=True)
     
     @api.model
-    def connect_to_mobile(self, matricule):
-        print(f"Connecting to mobile with matricule: {matricule}")
-        access_users_mobile = self.env['v.access.users.mobile'].search([('matricule', '=', matricule)], limit=1)
+    def connect_to_mobile(self, code_pin):
+        print(f"Connecting to mobile with code_pin: {code_pin}")
+        access_users_mobile = self.env['v.access.users.mobile'].search([('code_pin', '=', code_pin)], limit=1)
         if not access_users_mobile:
             return {'status': 404, 'error': 'User not found'}
         else:
@@ -24,7 +24,7 @@ class v_access_users_mobile(models.Model):
         return """
             select 
                 row_number() OVER (ORDER BY a.id, b.id) AS id,
-                a.matricule,
+                a.code_pin,
                 a.user_id,
                 b.login
             from hr_employee a

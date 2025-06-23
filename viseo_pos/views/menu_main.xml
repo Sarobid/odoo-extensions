@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="menu_my_vehicles_root" name="Mes véhicules" sequence="10"
-            action="action_client_list_vehicle_employee_id"/>
+            action="action_client_list_vehicle_employee_id" 
+            groups="viseo_pos.group_rma_vehicle_mecano"/>
     <menuitem id="menu_list_piece_mecano_root" name="Liste Pieces" sequence="10"
-            action="action_client_list_piece_mecano_id"/>
+            action="action_client_list_piece_mecano_id"
+            groups="viseo_pos.group_rma_vehicle_mecano"/>
 </odoo>

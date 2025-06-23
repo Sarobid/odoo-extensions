@@ -19,11 +19,12 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','web','fleet','viseo_repair_order','stock','viseo_add_weight','bus'],
+    'depends': ['base','web','fleet','viseo_repair_order','stock','viseo_add_weight','bus','hr'],
 
     # always loaded
     'data': [
         'security/groups_rma.xml',
+        'views/employee/hr_view_employee_form.xml',
         'views/stock/view_stock_picking_form.xml',
         'views/rma/view_fleet_vehicle_log_service_form.xml',
         'views/rma/view_flee_vehicle_log_service_tree.xml',

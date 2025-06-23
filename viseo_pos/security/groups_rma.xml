@@ -4,5 +4,9 @@
         <field name="name">RMA Vehicule Mecano</field>
     </record>
 
+    <record id="group_admin_mobile_viseopos" model="res.groups">
+        <field name="name">Bot admin mobile viseo pos</field>
+    </record>
+
 
 </odoo>

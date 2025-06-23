@@ -1,4 +1,4 @@
-odoo.define('my_module.user_menu_multi_company', function (require) {
+odoo.define('viseo_pos.user_menu_multi_company', function (require) {
     "use strict";
 
     var UserMenu = require('web.UserMenu');

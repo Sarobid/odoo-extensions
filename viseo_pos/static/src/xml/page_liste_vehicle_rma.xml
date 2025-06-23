@@ -8,17 +8,17 @@
 
       <!-- Scrollable zone -->
        <div class="container-fluid px-4">
-      <div class="row g-4 oe_background_grey" style="max-height: 88vh; overflow-y: auto;">
+      <div class="row g-1 oe_background_grey" style="max-height: 88vh; overflow-y: auto;">
         <t t-foreach="dataVehicle" t-as="item">
-          <div class="vehicle-item col-12 col-md-6 col-lg-4 mb-3">
-            <div class="card h-100 shadow-sm border-0 vehicle-card" t-att-data-id="item.id" style="cursor:pointer; padding: 1.5rem;">
+          <div class="vehicle-item col-12 col-md-6 col-lg-4 mb-1">
+            <div class="card h-100 shadow-sm border-0 vehicle-card" t-att-data-id="item.id" style="cursor:pointer; padding: 0.5rem;">
 
               <!-- Titre principal -->
-              <div class="mb-3">
-                <h5 class="mb-1">
+              <div class="mb-0">
+                <h5 class="mb-0">
                   <strong style="font-weight:bold;color:rgb(0, 160, 157)">VIN : <t t-esc="item.vin_sn" /></strong>
                  </h5>
-                <h5 class="fw-bold mb-1">
+                <h5 class="fw-bold mb-0">
                   <strong style="font-weight:bold;color:rgb(0, 160, 157)">Plaque : <t t-esc="item.license_plate" /></strong>
                 </h5>
                 <hr class="my-2" />
@@ -26,28 +26,28 @@
 
               <!-- Informations -->
               <div class="text-dark fs-6">
-                <h4 class="mb-2 display-6"><t t-esc="item.name2" /></h4>
-                <p class="mb-2"><strong>Client :</strong> 
+                <h4 class="mb-0 display-6"><t t-esc="item.name2" /></h4>
+                <p class="mb-0"><strong>Client :</strong> 
                   <span class="">
                     <t t-if="item.customer_id"><t t-esc="item.customer_id[1]" /></t>
                     <t t-else="">Non défini</t>
                   </span>
                 </p>
-                <p class="mb-2"><strong>Marque :</strong> 
+                <p class="mb-0"><strong>Marque :</strong> 
                   <span class="">
                     <t t-if="item.brand_id"><t t-esc="item.brand_id[1]" /></t>
                     <t t-else="">Non défini</t>
                   </span>
                 </p>
 
-                <p class="mb-2"><strong>Modèle :</strong> 
+                <p class="mb-0"><strong>Modèle :</strong> 
                   <span class="">
                     <t t-if="item.model_id"><t t-esc="item.model_id[1]" /></t>
                     <t t-else="">Non défini</t>
                   </span>
                 </p>
 
-                <p class="mb-2"><strong>Type :</strong> 
+                <p class="mb-0"><strong>Type :</strong> 
                   <span class="">
                     <t t-if="item.vehicle_type"><t t-esc="item.vehicle_type[1]" /></t>
                     <t t-else="">Non défini</t>

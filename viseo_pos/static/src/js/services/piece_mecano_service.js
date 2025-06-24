@@ -12,6 +12,7 @@ const pieceMecanoService = {
             traiteData(pieceMecanoService.sortByDate(data));
         }).catch(error => {
             console.error("Erreur chargement", error);
+            pieceMecanoService.hideLoader();
         });
     },
     getPiecesSelected : function (dataPiece,id){
@@ -37,6 +38,13 @@ const pieceMecanoService = {
             console.error("Erreur validation", error);
         });
     },
+    hideLoader: function () {
+        const loader = document.querySelector('.loader_mecano');
+        if (loader) {
+            loader.classList.add('d-none');
+        }
+    },
+
     validPieceMecanoStockMove: function (odooClient, stock_move_id,traiteData) {
         return odooClient._rpc({
             model: 'stock.move',
@@ -47,6 +55,7 @@ const pieceMecanoService = {
             traiteData(data);
         }).catch(error => {
              console.error("Erreur validation", error);
+             pieceMecanoService.hideLoader();
         });
     },cancelPieceMecanoStockMove: function (odooClient, stock_move_id,traiteData) {
         return odooClient._rpc({
@@ -70,6 +79,7 @@ const pieceMecanoService = {
             traiteData(data);
         }).catch(error => {
             console.error("Erreur refus", error);
+            pieceMecanoService.hideLoader();
         });
     },
 
@@ -116,6 +126,7 @@ const pieceMecanoService = {
             traiteData(data);
         }).catch(error => {
             console.error("Erreur vérification disponibilité", error);
+            pieceMecanoService.hideLoader();
         });
     },
     validationStockPicking: function (odooClient, stock_piking, traiteData) {
@@ -128,6 +139,7 @@ const pieceMecanoService = {
             traiteData(data);
         }).catch(error => {
             console.error("Erreur validation stock picking", error);
+            pieceMecanoService.hideLoader();
         });
     },
     mettre_pas_relicas : function (odooClient,res_id,stock_piking, traiteData) {
@@ -162,6 +174,7 @@ const pieceMecanoService = {
             traiteData(data);
         }).catch(error => {
             console.error("Erreur transfert immédiat", error);
+            pieceMecanoService.hideLoader();
         });
     },
     validationCompleteStockPicking: function (odooClient,dataMecano, stock_piking,session, traiteData) {
@@ -225,6 +238,7 @@ const pieceMecanoService = {
             traiteData(data);
         }).catch(error => {
             console.error("Erreur annulation du transfert", error);
+            pieceMecanoService.hideLoader();
         });
     },
     retourner_all_pieces_magasinier : function (odooClient,picking_magasinier,dataMecano,traiteData){
@@ -306,6 +320,7 @@ const pieceMecanoService = {
             traiteData(data);
         }).catch(error => {
             console.error("Erreur validation création retour pièce magasinier", error);
+            pieceMecanoService.hideLoader();
         });
     },
     update_picking_return_mg_to_product_return: function (odooClient, picking_product_line_id, picking_return_id, traiteData) {
@@ -320,6 +335,7 @@ const pieceMecanoService = {
         }).catch(error => {
 
             console.error("Erreur Mise à jour de picking_product_line_id:", error);
+            pieceMecanoService.hideLoader();
         });
     },
     getAllPieceInMagasin: function (odooClient,picking_magasinier, traiteData) {
@@ -335,6 +351,7 @@ const pieceMecanoService = {
             traiteData(pieceMecanoService.sortByDate(data));
         }).catch(error => {
             console.error("Erreur chargement des pièces en magasin", error);
+            pieceMecanoService.hideLoader();
         });
     }
 

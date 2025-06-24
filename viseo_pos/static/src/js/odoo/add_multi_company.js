@@ -17,7 +17,7 @@ odoo.define('viseo_pos.user_menu_multi_company', function (require) {
                     if (allowed_company_ids && session.user_context.allowed_company_ids.length != allowed_company_ids_array.length) {
                         session.user_context.allowed_company_ids = allowed_company_ids_array
                         //  console.log('Toutes les sociétés sont sélectionnées');
-                        window.location.reload();
+                        // window.location.reload();
                     }
                 }
             });
